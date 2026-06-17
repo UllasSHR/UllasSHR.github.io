@@ -44,17 +44,16 @@ Open `http://localhost:4173`.
 
 ## Publish On GitHub Pages
 
-1. Create a GitHub repo named `YOUR_GITHUB_USERNAME.github.io`.
-2. Replace `YOUR_GITHUB_USERNAME` in `site.config.json`.
-3. Push this project to the repo.
-4. In GitHub, go to `Settings -> Pages`.
-5. Under `Build and deployment`, set the source to `GitHub Actions`.
-6. Push to `main`; the workflow in `.github/workflows/pages.yml` will publish the site.
+1. Create a GitHub repo named `UllasSHR.github.io`.
+2. Push this project to the repo.
+3. In GitHub, go to `Settings -> Pages`.
+4. Under `Build and deployment`, set the source to `GitHub Actions`.
+5. Push to `main`; the workflow in `.github/workflows/pages.yml` will publish the site.
 
 Your site will be available at:
 
 ```txt
-https://YOUR_GITHUB_USERNAME.github.io
+https://UllasSHR.github.io
 ```
 
 ## Suggested Categories
@@ -64,4 +63,3 @@ https://YOUR_GITHUB_USERNAME.github.io
 - `notes`: useful references and things you keep forgetting
 - `ai`: Codex, agents, workflows, prompts, and experiments
 - `projects`: finished or unfinished project writeups
-
