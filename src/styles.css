@@ -1,0 +1,295 @@
+:root {
+  --bg: #fbfaf7;
+  --paper: #ffffff;
+  --text: #1f2328;
+  --muted: #667085;
+  --line: #dedbd3;
+  --accent: #0969da;
+  --accent-quiet: #e7f0ff;
+  --tag-bg: #f1eee7;
+  --tag-text: #4f4638;
+  --code-bg: #f5f2eb;
+  --max: 960px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.site-shell {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 28px 20px 64px;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: grid;
+  gap: 2px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand-title {
+  font-size: 18px;
+  font-weight: 750;
+}
+
+.brand-subtitle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.nav a:hover {
+  color: var(--accent);
+}
+
+.hero {
+  padding: 56px 0 28px;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.15;
+}
+
+h1 {
+  max-width: 760px;
+  margin: 0;
+  font-size: clamp(38px, 6vw, 68px);
+  letter-spacing: 0;
+}
+
+.hero p {
+  max-width: 680px;
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 19px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 36px 0 18px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.section-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.post-list {
+  display: grid;
+  gap: 18px;
+}
+
+.post-card {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-card h2 {
+  margin: 0 0 8px;
+  font-size: 25px;
+}
+
+.post-card h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card h2 a:hover {
+  color: var(--accent);
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.post-summary {
+  max-width: 720px;
+  margin: 0 0 14px;
+  color: #3d444d;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.tag:hover {
+  background: var(--accent-quiet);
+  color: var(--accent);
+}
+
+.article {
+  max-width: 740px;
+  padding: 44px 0 16px;
+}
+
+.article h1 {
+  font-size: clamp(34px, 5vw, 56px);
+}
+
+.article .post-meta {
+  margin-top: 18px;
+}
+
+.content {
+  margin-top: 36px;
+  font-size: 18px;
+}
+
+.content h2 {
+  margin-top: 42px;
+  font-size: 28px;
+}
+
+.content h3 {
+  margin-top: 34px;
+  font-size: 22px;
+}
+
+.content p,
+.content ul,
+.content ol,
+.content blockquote {
+  margin: 18px 0;
+}
+
+.content blockquote {
+  padding-left: 18px;
+  border-left: 3px solid var(--line);
+  color: #3d444d;
+}
+
+.content code {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: var(--code-bg);
+  font-size: 0.9em;
+}
+
+.content pre {
+  overflow-x: auto;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--code-bg);
+}
+
+.content pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.back-link {
+  display: inline-flex;
+  margin-top: 36px;
+  font-size: 15px;
+}
+
+.site-footer {
+  margin-top: 56px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (max-width: 680px) {
+  .site-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .hero {
+    padding-top: 42px;
+  }
+
+  .section-heading {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .content {
+    font-size: 17px;
+  }
+}
