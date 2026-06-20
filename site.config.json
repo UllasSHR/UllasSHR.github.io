@@ -1,15 +1,49 @@
 {
-  "title": "Ullas Notes",
-  "description": "Builder logs, life notes, and small things worth saving.",
-  "author": "Ullas",
+  "title": "Ullas Srivastava",
+  "description": "Longer notes about things I am building, learning, and noticing in life, written when they might help someone else.",
+  "author": "Writing, building, learning",
   "url": "https://UllasSHR.github.io",
   "baseUrl": "",
   "social": {
     "github": "https://github.com/UllasSHR",
-    "x": ""
+    "twitter": "https://x.com/UllasSHR",
+    "x": "https://x.com/UllasSHR"
   },
   "nav": [
     { "label": "Home", "href": "/" },
+    { "label": "Categories", "href": "/categories/" },
     { "label": "About", "href": "/about/" }
+  ],
+  "categories": [
+    {
+      "slug": "building",
+      "label": "Building",
+      "description": "Tools, projects, experiments, and things I am making."
+    },
+    {
+      "slug": "work",
+      "label": "Work & Contributions",
+      "description": "Useful work, contributions, collaborations, and public proof."
+    },
+    {
+      "slug": "technical-writing",
+      "label": "Technical Writing",
+      "description": "Clear technical articles, agent workflows, tool notes, and engineering explainers."
+    },
+    {
+      "slug": "life",
+      "label": "Life Notes",
+      "description": "Interesting things from life that feel worth sharing."
+    },
+    {
+      "slug": "essays",
+      "label": "Essays",
+      "description": "Longer thoughts, articles, and reflections."
+    },
+    {
+      "slug": "learning",
+      "label": "Learning",
+      "description": "Lessons, mistakes, references, and things I want to remember."
+    }
   ]
 }

@@ -74,6 +74,9 @@ a {
 }
 
 .nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--text);
   text-decoration: none;
 }
@@ -112,6 +115,54 @@ h1 {
   font-size: 19px;
 }
 
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.social-link,
+.nav-social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: transform 150ms ease, border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.social-link {
+  min-height: 34px;
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.46);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.nav-social-link {
+  min-height: 30px;
+}
+
+.social-link svg,
+.nav-social-link svg {
+  flex: 0 0 auto;
+}
+
+.social-link:hover,
+.nav-social-link:hover {
+  transform: translateY(-1px);
+}
+
+.social-link:hover {
+  border-color: #bdd4f4;
+  background: var(--accent-quiet);
+  color: var(--accent);
+}
+
 .section-heading {
   display: flex;
   align-items: end;
@@ -136,6 +187,52 @@ h1 {
 .post-list {
   display: grid;
   gap: 18px;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.category-card {
+  min-height: 148px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.category-card a {
+  display: grid;
+  align-content: space-between;
+  gap: 16px;
+  min-height: 148px;
+  padding: 18px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.category-card span {
+  font-size: 19px;
+  font-weight: 750;
+  line-height: 1.2;
+}
+
+.category-card small {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.category-card strong {
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.category-card:hover {
+  border-color: #bdd4f4;
+  background: var(--accent-quiet);
 }
 
 .post-card {
@@ -165,6 +262,10 @@ h1 {
   margin: 0 0 10px;
   color: var(--muted);
   font-size: 14px;
+}
+
+.category-link {
+  color: var(--accent);
 }
 
 .post-summary {
@@ -287,6 +388,10 @@ h1 {
   .section-heading {
     align-items: start;
     flex-direction: column;
+  }
+
+  .category-grid {
+    grid-template-columns: 1fr;
   }
 
   .content {

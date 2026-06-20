@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "preview": "node scripts/build.mjs && python3 -m http.server 4173 -d dist"
+    "new-post": "node scripts/new-post.mjs",
+    "preview": "node scripts/build.mjs && python3 -m http.server 4174 -d dist"
   }
 }

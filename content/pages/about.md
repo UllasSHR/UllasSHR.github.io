@@ -1,10 +1,10 @@
 ---
 title: "About"
-summary: "What this site is for."
+summary: "A small place for longer notes and useful thoughts."
 ---
 
-This is Ullas's public notebook.
+This is a small personal site by Ullas Srivastava.
 
-It is for builder logs, AI experiments, small life notes, references, and thoughts that need more room than social media gives them.
+I use it for things that need more room than a short post: longer thoughts, articles, small life notes, useful lessons, and interesting things happening around me.
 
-The shape is intentionally simple: write Markdown, push to GitHub, keep going.
+The rule is simple: if something feels worth saving, and it might help one other person, it can live here.
