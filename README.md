@@ -27,6 +27,7 @@ Option 2: create a Markdown file manually in `content/posts/`:
 ---
 title: "Your post title"
 date: "2026-06-17"
+updated: ""
 summary: "One sentence about the post."
 category: "building"
 tags: ["tools", "ai"]
@@ -39,9 +40,12 @@ Available categories:
 
 - `building`: tools, projects, experiments, and things you are making
 - `work`: contributions, collaborations, and public proof
+- `technical-writing`: technical articles, agent workflows, tool notes, and engineering explainers
 - `life`: interesting things from life
 - `essays`: longer thoughts and articles
 - `learning`: lessons, mistakes, references, and things to remember
+
+Use `date` for the original publish date. If you make a meaningful update later, set `updated` to that update date, for example `updated: "2026-06-20"`.
 
 Then run:
 

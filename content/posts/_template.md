@@ -1,6 +1,7 @@
 ---
 title: "Post title"
 date: "2026-06-19"
+updated: ""
 summary: "One sentence about what this is and why someone should read it."
 category: "building"
 tags: ["tag-one", "tag-two"]

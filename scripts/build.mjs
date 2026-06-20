@@ -27,6 +27,7 @@ const posts = (await readMarkdownFiles(postsDir))
       ...entry,
       slug: entry.data.slug || slugFromFilename(entry.filename),
       date: entry.data.date || "1970-01-01",
+      updated: entry.data.updated || "",
       category: getCategory(categorySlug),
       tags: entry.data.tags || []
     };
@@ -116,6 +117,7 @@ await fs.writeFile(
     posts.map((post) => ({
       title: post.data.title,
       date: post.date,
+      updated: post.updated,
       summary: post.data.summary || "",
       category: post.category.label,
       tags: post.tags,
@@ -225,7 +227,7 @@ function renderPost(post) {
     <article class="article">
       <p class="eyebrow">Writing</p>
       <h1>${escapeHtml(post.data.title || "Untitled")}</h1>
-      ${renderMeta(post)}
+      ${renderArticleDetails(post)}
       <div class="content">
         ${markdownToHtml(post.content)}
       </div>
@@ -321,6 +323,53 @@ function renderMeta(post) {
     <p class="post-meta">
       ${parts.join("\n")}
     </p>
+  `;
+}
+
+function renderArticleDetails(post) {
+  const detailItems = [
+    {
+      label: "Posted",
+      value: `<time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>`
+    },
+    post.updated && post.updated !== post.date
+      ? {
+          label: "Updated",
+          value: `<time datetime="${escapeHtml(post.updated)}">${formatDate(post.updated)}</time>`
+        }
+      : null,
+    post.category
+      ? {
+          label: "Category",
+          value: `<a class="category-link" href="${withBase(`/categories/${post.category.slug}/`)}">${escapeHtml(post.category.label)}</a>`
+        }
+      : null,
+    post.tags.length
+      ? {
+          label: "Tags",
+          value: `<span class="article-detail-tags">${post.tags
+            .map((tag) => `<a class="tag" href="${withBase(`/tags/${slugify(tag)}/`)}">${escapeHtml(tag)}</a>`)
+            .join("")}</span>`
+        }
+      : null
+  ].filter(Boolean);
+
+  return `
+    <section class="article-details" aria-label="Article details">
+      <div class="article-detail-grid">
+        ${detailItems
+          .map(
+            (item) => `
+              <div class="article-detail">
+                <span>${escapeHtml(item.label)}</span>
+                <strong>${item.value}</strong>
+              </div>
+            `
+          )
+          .join("")}
+      </div>
+      ${post.data.summary ? `<p>${escapeHtml(post.data.summary)}</p>` : ""}
+    </section>
   `;
 }
 

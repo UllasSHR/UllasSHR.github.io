@@ -26,6 +26,7 @@ const outputPath = path.join(root, "content", "posts", filename);
 const body = `---
 title: "${escapeYaml(title)}"
 date: "${date}"
+updated: ""
 summary: "${escapeYaml(summary || `A note about ${title}.`)}"
 category: "${category}"
 tags: []
