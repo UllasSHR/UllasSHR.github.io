@@ -200,6 +200,17 @@ function renderHome(homePosts, tags, categories) {
       ${socialLinks}
     </section>
 
+    <section class="section-heading" id="latest" aria-labelledby="latest-articles">
+      <div>
+        <h2 id="latest-articles">Latest articles</h2>
+        <p>Newest writing appears first, so visitors do not have to hunt for what changed.</p>
+      </div>
+    </section>
+
+    <div class="post-list latest-list">
+      ${postCards || "<p>No articles yet.</p>"}
+    </div>
+
     <section class="section-heading" aria-labelledby="all-categories">
       <div>
         <h2 id="all-categories">Sections</h2>

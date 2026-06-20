@@ -11,6 +11,7 @@
   },
   "nav": [
     { "label": "Home", "href": "/" },
+    { "label": "Latest", "href": "/#latest" },
     { "label": "Categories", "href": "/categories/" },
     { "label": "About", "href": "/about/" }
   ],
