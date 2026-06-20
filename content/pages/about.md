@@ -1,6 +1,6 @@
 ---
 title: "About"
-summary: "A small place for longer notes and useful thoughts."
+summary: "A small place for insights and useful thoughts."
 ---
 
 This is a small personal site by Ullas Srivastava.

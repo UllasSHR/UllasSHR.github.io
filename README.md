@@ -1,6 +1,6 @@
 # Ullas Srivastava
 
-A tiny GitHub Pages site for longer thoughts, useful notes, small life things, and articles that need more room than a short social post.
+A tiny GitHub Pages site for insights, useful notes, small life things, and articles that need more room than a short social post.
 
 ## Why This Exists
 
