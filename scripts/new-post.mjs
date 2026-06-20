@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const config = JSON.parse(await fs.readFile(path.join(root, "site.config.json"), "utf8"));
-const [title, category = "essays", summary = ""] = process.argv.slice(2);
+const [title, category = "building", summary = ""] = process.argv.slice(2);
 
 if (!title) {
   console.error('Usage: npm run new-post -- "Post title" category "Short summary"');

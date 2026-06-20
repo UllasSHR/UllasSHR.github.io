@@ -21,7 +21,7 @@ await fs.writeFile(path.join(distDir, ".nojekyll"), "");
 
 const posts = (await readMarkdownFiles(postsDir))
   .map((entry) => {
-    const categorySlug = slugify(entry.data.category || "essays");
+    const categorySlug = slugify(entry.data.category || "building");
 
     return {
       ...entry,

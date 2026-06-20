@@ -36,11 +36,6 @@
       "description": "Interesting things from life that feel worth sharing."
     },
     {
-      "slug": "essays",
-      "label": "Essays",
-      "description": "Longer thoughts, articles, and reflections."
-    },
-    {
       "slug": "learning",
       "label": "Learning",
       "description": "Lessons, mistakes, references, and things I want to remember."

@@ -42,7 +42,6 @@ Available categories:
 - `work`: contributions, collaborations, and public proof
 - `technical-writing`: technical articles, agent workflows, tool notes, and engineering explainers
 - `life`: interesting things from life
-- `essays`: longer thoughts and articles
 - `learning`: lessons, mistakes, references, and things to remember
 
 Use `date` for the original publish date. If you make a meaningful update later, set `updated` to that update date, for example `updated: "2026-06-20"`.
