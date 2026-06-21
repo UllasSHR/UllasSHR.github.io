@@ -240,11 +240,28 @@ h1 {
 }
 
 .post-card {
+  position: relative;
   padding: 22px 0;
   border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.post-card:hover {
+  border-color: #bdd4f4;
+  background: rgba(231, 240, 255, 0.35);
+}
+
+.post-card-hit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  text-decoration: none;
 }
 
 .post-card h2 {
+  position: relative;
+  z-index: 2;
   margin: 0 0 8px;
   font-size: 25px;
 }
@@ -259,6 +276,8 @@ h1 {
 }
 
 .post-meta {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -273,12 +292,16 @@ h1 {
 }
 
 .post-summary {
+  position: relative;
+  z-index: 2;
   max-width: 720px;
   margin: 0 0 14px;
   color: #3d444d;
 }
 
 .tag-list {
+  position: relative;
+  z-index: 2;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;

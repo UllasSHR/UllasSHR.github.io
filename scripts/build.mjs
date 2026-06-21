@@ -311,9 +311,12 @@ function renderCategoryCard(category) {
 }
 
 function renderPostCard(post) {
+  const postUrl = withBase(`/posts/${post.slug}/`);
+
   return `
     <article class="post-card">
-      <h2><a href="${withBase(`/posts/${post.slug}/`)}">${escapeHtml(post.data.title || "Untitled")}</a></h2>
+      <a class="post-card-hit" href="${postUrl}" aria-label="Read ${escapeHtml(post.data.title || "Untitled")}"></a>
+      <h2><a href="${postUrl}">${escapeHtml(post.data.title || "Untitled")}</a></h2>
       ${renderMeta(post)}
       <p class="post-summary">${escapeHtml(post.data.summary || "")}</p>
       ${renderTags(post.tags)}
