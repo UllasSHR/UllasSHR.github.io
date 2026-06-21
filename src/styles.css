@@ -396,6 +396,11 @@ h1 {
   font-size: 18px;
 }
 
+.content p a + a {
+  display: inline-block;
+  margin-left: 16px;
+}
+
 .content h2 {
   margin-top: 42px;
   font-size: 28px;
