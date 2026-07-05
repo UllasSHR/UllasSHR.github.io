@@ -19,8 +19,8 @@ turning the work into something other people can use. Everything I build is open
 
 ## Now
 
-Building small AI tools and writing here as I go. <!-- TODO(Ullas): replace with one
-dated sentence about what you're working on; update monthly -->
+**July 2026** — I gave this site a proper redesign, and I'm picking one of my three
+tools to take deeper instead of starting a fourth.
 
 ## Why this site
 

@@ -17,6 +17,7 @@ await fs.mkdir(path.join(distDir, "posts"), { recursive: true });
 await fs.mkdir(path.join(distDir, "tags"), { recursive: true });
 await fs.mkdir(path.join(distDir, "categories"), { recursive: true });
 await fs.copyFile(path.join(root, "src", "styles.css"), path.join(distDir, "styles.css"));
+await fs.copyFile(path.join(root, "src", "favicon.svg"), path.join(distDir, "favicon.svg"));
 await fs.writeFile(path.join(distDir, ".nojekyll"), "");
 
 const posts = (await readMarkdownFiles(postsDir))
@@ -45,6 +46,8 @@ for (const post of posts) {
     renderLayout({
       title: `${post.data.title} - ${config.title}`,
       description: post.data.summary || config.description,
+      path: `/posts/${post.slug}/`,
+      type: "article",
       body: renderPost(post)
     })
   );
@@ -59,6 +62,7 @@ for (const page of pages) {
     renderLayout({
       title: `${page.data.title} - ${config.title}`,
       description: page.data.summary || config.description,
+      path: `/${slug}/`,
       body: renderPage(page)
     })
   );
@@ -72,6 +76,7 @@ await fs.writeFile(
   renderLayout({
     title: `Sections - ${config.title}`,
     description: "Browse writing by section.",
+    path: "/categories/",
     body: renderCategoriesIndexPage(categoryGroups)
   })
 );
@@ -84,6 +89,7 @@ for (const category of categoryGroups) {
     renderLayout({
       title: `${category.label} - ${config.title}`,
       description: category.description,
+      path: `/categories/${category.slug}/`,
       body: renderCategoryPage(category)
     })
   );
@@ -97,6 +103,7 @@ for (const [tag, taggedPosts] of tags) {
     renderLayout({
       title: `${tag} - ${config.title}`,
       description: `Posts tagged ${tag}.`,
+      path: `/tags/${slugify(tag)}/`,
       body: renderTagPage(tag, taggedPosts)
     })
   );
@@ -136,6 +143,54 @@ await fs.writeFile(
     null,
     2
   )
+);
+
+await fs.writeFile(
+  path.join(distDir, "404.html"),
+  renderLayout({
+    title: `Page not found - ${config.title}`,
+    description: "This page does not exist.",
+    path: "/404.html",
+    body: `
+      <section class="archive-head marginalia">
+        <p class="caps archive-label">404</p>
+        <div>
+          <h1>This page went missing.</h1>
+          <p>The link may be old, or the page may have moved. Everything that exists is on the home page.</p>
+          <a class="back-link caps" href="${withBase("/")}">← All writing</a>
+        </div>
+      </section>
+    `
+  })
+);
+
+const sitemapPaths = [
+  "/",
+  ...pages.map((page) => `/${page.data.slug || slugFromFilename(page.filename)}/`),
+  "/categories/",
+  ...categoryGroups.map((category) => `/categories/${category.slug}/`),
+  ...[...tags.keys()].map((tag) => `/tags/${slugify(tag)}/`),
+  ...posts.map((post) => `/posts/${post.slug}/`)
+];
+
+await fs.writeFile(
+  path.join(distDir, "sitemap.xml"),
+  `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapPaths
+  .map((pagePath) => {
+    const post = posts.find((item) => `/posts/${item.slug}/` === pagePath);
+    const lastmod = post ? `\n    <lastmod>${post.updated || post.date}</lastmod>` : "";
+    return `  <url>\n    <loc>${absoluteUrl(pagePath)}</loc>${lastmod}\n  </url>`;
+  })
+  .join("\n")}
+</urlset>
+`
+);
+
+await fs.writeFile(
+  path.join(distDir, "robots.txt"),
+  `User-agent: *\nAllow: /\n\nSitemap: ${absoluteUrl("/sitemap.xml")}\n`
 );
 
 console.log(`Built ${posts.length} posts, ${pages.length} pages, and ${categoryGroups.length} categories into dist/`);
@@ -345,7 +400,7 @@ function renderArticleMargin(post) {
   `;
 }
 
-function renderLayout({ title, description, body }) {
+function renderLayout({ title, description, body, path: pagePath = "/", type = "website" }) {
   const socialNavLinks = getSocialLinks().map(renderHeaderSocialAnchor).join("");
   const footerSocialLinks = getSocialLinks()
     .map((link) => `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`)
@@ -358,6 +413,14 @@ function renderLayout({ title, description, body }) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeHtml(description)}">
+    <link rel="canonical" href="${absoluteUrl(pagePath)}">
+    <meta property="og:site_name" content="${escapeHtml(config.title)}">
+    <meta property="og:type" content="${type}">
+    <meta property="og:title" content="${escapeHtml(title)}">
+    <meta property="og:description" content="${escapeHtml(description)}">
+    <meta property="og:url" content="${absoluteUrl(pagePath)}">
+    <meta name="twitter:card" content="summary">
+    <link rel="icon" type="image/svg+xml" href="${withBase("/favicon.svg")}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <link rel="alternate" type="application/feed+json" title="${escapeHtml(config.title)}" href="${absoluteUrl("/feed.json")}">
