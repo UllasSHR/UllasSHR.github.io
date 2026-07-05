@@ -1,7 +1,7 @@
 {
   "title": "Ullas Srivastava",
-  "description": "Insights about things I am building, learning, and noticing in life, written when they might help someone else.",
-  "author": "Writing, building, learning",
+  "description": "Notes on building and learning — written down when they might help someone else finish their own thing.",
+  "author": "Builder · Writer",
   "url": "https://UllasSHR.github.io",
   "baseUrl": "",
   "social": {
@@ -10,36 +10,25 @@
     "x": "https://x.com/UllasSHR"
   },
   "nav": [
-    { "label": "Home", "href": "/" },
-    { "label": "Latest", "href": "/#latest" },
-    { "label": "Categories", "href": "/categories/" },
+    { "label": "Writing", "href": "/" },
+    { "label": "Sections", "href": "/categories/" },
     { "label": "About", "href": "/about/" }
   ],
   "categories": [
     {
       "slug": "building",
       "label": "Building",
-      "description": "Tools, projects, experiments, and things I am making."
-    },
-    {
-      "slug": "work",
-      "label": "Work & Contributions",
-      "description": "Useful work, contributions, collaborations, and public proof."
+      "description": "Tools, projects, and experiments, built in the open."
     },
     {
       "slug": "technical-writing",
       "label": "Technical Writing",
-      "description": "Clear technical articles, agent workflows, tool notes, and engineering explainers."
+      "description": "Clear technical articles, agent workflows, and engineering explainers."
     },
     {
-      "slug": "life",
-      "label": "Life Notes",
-      "description": "Interesting things from life that feel worth sharing."
-    },
-    {
-      "slug": "learning",
-      "label": "Learning",
-      "description": "Lessons, mistakes, references, and things I want to remember."
+      "slug": "notes",
+      "label": "Notes",
+      "description": "Lessons, mistakes, and things worth remembering."
     }
   ]
 }

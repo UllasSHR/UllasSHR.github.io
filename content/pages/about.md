@@ -3,12 +3,31 @@ title: "About"
 summary: "About Ullas Srivastava, a 19-year-old open-source developer and builder writing about shipping projects, tools, and reflective ideas."
 ---
 
-I am Ullas Srivastava, a 19-year-old open-source developer and builder.
+I'm Ullas — a 19-year-old developer who learns by shipping.
 
-I love to build and ship things. Most of what I learn comes from making real projects, breaking them, fixing them, and turning the work into something other people can see or use.
+Most of what I know comes from making real projects, breaking them, fixing them, and
+turning the work into something other people can use. Everything I build is open source.
 
-This site is where I keep the things that need more room than a short post: project notes, technical write-ups, build logs, lessons from shipping, and reflective ideas about life as I learn by building.
+## Built in the open
 
-I write here for two reasons. First, to remember what I figured out. Second, to make the work useful for someone else who is building, learning, or trying to finish their own thing.
+- **[AI-ingest](/posts/ai-ingest/)** — a personal AI news filter that turns the daily
+  firehose into one short morning brief. *Using it daily myself.*
+- **[Breathe](/posts/breathe/)** — a two-person health ritual app: daily activities,
+  streaks, partner accountability. *Two users: me and my partner.*
+- **[LaunchGuard](/posts/launchguard/)** — a launch-readiness scanner that turns repo
+  risks into a plain-English report. *Prototype.*
 
-The rule is simple: if something feels worth saving, and it might help one other person, it can live here.
+## Now
+
+Building small AI tools and writing here as I go. <!-- TODO(Ullas): replace with one
+dated sentence about what you're working on; update monthly -->
+
+## Why this site
+
+To remember what I figured out, and to make it useful for someone else trying to finish
+their own thing. The rule is simple: if it might help one other person, it lives here.
+
+## Say hello
+
+I'm on [GitHub](https://github.com/UllasSHR) and [X](https://x.com/UllasSHR).
+If you're building something and stuck, I'm happy to look.

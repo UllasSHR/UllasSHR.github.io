@@ -1,5 +1,5 @@
 ---
-title: "Computer Use on Codex"
+title: "Computer Use on Codex, with exactly enough access"
 date: "2026-06-16"
 updated: "2026-06-20"
 summary: "Computer Use is powerful, but the smarter workflow is to give Codex exactly enough access for the task."

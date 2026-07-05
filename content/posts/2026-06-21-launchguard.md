@@ -1,5 +1,5 @@
 ---
-title: "LaunchGuard"
+title: "LaunchGuard: is this AI-built app actually ready to ship?"
 date: "2026-06-21"
 updated: ""
 summary: "A launch-readiness scanner for AI-built SaaS apps that turns repo risks into a plain-English report."

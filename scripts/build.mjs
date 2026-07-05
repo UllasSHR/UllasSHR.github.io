@@ -70,8 +70,8 @@ const categoryGroups = collectCategories(posts);
 await fs.writeFile(
   path.join(distDir, "categories", "index.html"),
   renderLayout({
-    title: `Categories - ${config.title}`,
-    description: "Browse writing by category.",
+    title: `Sections - ${config.title}`,
+    description: "Browse writing by section.",
     body: renderCategoriesIndexPage(categoryGroups)
   })
 );
@@ -107,22 +107,32 @@ await fs.writeFile(
   renderLayout({
     title: config.title,
     description: config.description,
-    body: renderHome(posts, tags, categoryGroups)
+    body: renderHome(posts, categoryGroups)
   })
 );
 
 await fs.writeFile(
   path.join(distDir, "feed.json"),
   JSON.stringify(
-    posts.map((post) => ({
-      title: post.data.title,
-      date: post.date,
-      updated: post.updated,
-      summary: post.data.summary || "",
-      category: post.category.label,
-      tags: post.tags,
-      url: absoluteUrl(`/posts/${post.slug}/`)
-    })),
+    {
+      version: "https://jsonfeed.org/version/1.1",
+      title: config.title,
+      home_page_url: absoluteUrl("/"),
+      feed_url: absoluteUrl("/feed.json"),
+      items: posts.map((post) => {
+        const url = absoluteUrl(`/posts/${post.slug}/`);
+        const summary = post.data.summary || "";
+
+        return {
+          id: url,
+          url,
+          title: post.data.title,
+          summary,
+          content_text: summary,
+          date_published: `${post.date}T00:00:00Z`
+        };
+      })
+    },
     null,
     2
   )
@@ -184,76 +194,64 @@ function stripQuotes(value) {
   return value.replace(/^["']|["']$/g, "");
 }
 
-function renderHome(homePosts, tags, categories) {
-  const postCards = homePosts.map(renderPostCard).join("\n");
-  const categoryCards = categories.map(renderCategoryCard).join("\n");
-  const tagLinks = [...tags.keys()]
-    .map((tag) => `<a class="tag" href="${withBase(`/tags/${slugify(tag)}/`)}">${escapeHtml(tag)}</a>`)
-    .join("");
-  const socialLinks = renderSocialLinks();
-
+function renderHome(homePosts, categories) {
   return `
-    <section class="hero">
-      <p class="eyebrow">Personal writing</p>
-      <h1>${escapeHtml(config.title)}</h1>
-      <p>${escapeHtml(config.description)}</p>
-      ${socialLinks}
-    </section>
-
-    <section class="section-heading" id="latest" aria-labelledby="latest-articles">
-      <div>
-        <h2 id="latest-articles">Latest articles</h2>
-        <p>Newest writing appears first, so visitors do not have to hunt for what changed.</p>
+    <section class="hero marginalia">
+      <p class="caps hero-label">Est. 2026<br>Writing · Building</p>
+      <div class="hero-copy">
+        <h1>Notes on <em>building</em> and <em>learning</em> — written down when they might help someone else finish their own thing.</h1>
+        <p class="hero-aside">Project notes, build logs, and lessons from shipping, by a 19-year-old open-source developer.</p>
+        <p class="hero-cta">Everything here is built in the open — <a href="${escapeHtml(config.social.github)}" target="_blank" rel="noopener noreferrer">browse the code on GitHub ↗</a></p>
       </div>
     </section>
 
-    <div class="post-list latest-list">
-      ${postCards || "<p>No articles yet.</p>"}
-    </div>
-
-    <section class="section-heading" aria-labelledby="all-categories">
-      <div>
-        <h2 id="all-categories">Sections</h2>
-        <p>Choose the main bucket for what you are writing.</p>
+    <section id="latest" aria-labelledby="latest-writing">
+      <div class="section-rule">
+        <h2 class="caps" id="latest-writing">Latest writing</h2>
+        <span class="caps">${formatCount(homePosts.length)}</span>
+      </div>
+      <div class="post-list">
+        ${homePosts.map(renderPostRow).join("\n") || '<p class="empty-state">No writing yet.</p>'}
       </div>
     </section>
 
-    <div class="category-grid">
-      ${categoryCards}
-    </div>
-
-    <section class="section-heading" aria-labelledby="all-tags">
-      <div>
-        <h2 id="all-tags">Tags</h2>
-        <p>Browse by theme.</p>
-      </div>
-    </section>
-
-    <nav class="tag-list" aria-label="Tags">${tagLinks}</nav>
+    ${renderSectionsBlock(categories)}
   `;
 }
 
 function renderPost(post) {
   return `
     <article class="article">
-      <p class="eyebrow">Writing</p>
-      <h1>${escapeHtml(post.data.title || "Untitled")}</h1>
-      ${renderArticleDetails(post)}
-      <div class="content">
-        ${markdownToHtml(post.content)}
+      <header class="article-head marginalia">
+        ${renderArticleMargin(post)}
+        <div class="article-intro">
+          <h1>${escapeHtml(post.data.title || "Untitled")}</h1>
+          ${post.data.summary ? `<p>${escapeHtml(post.data.summary)}</p>` : ""}
+        </div>
+      </header>
+      <div class="article-body marginalia">
+        <span aria-hidden="true"></span>
+        <div class="content">
+          ${markdownToHtml(post.content)}
+        </div>
       </div>
-      <a class="back-link" href="${withBase("/")}">Back to all writing</a>
+      <div class="article-end">
+        <span class="ornament" aria-hidden="true">❦</span>
+        <a class="back-link caps" href="${withBase("/")}">← All writing</a>
+      </div>
     </article>
   `;
 }
 
 function renderPage(page) {
   return `
-    <article class="article">
-      <p class="eyebrow">Page</p>
-      <h1>${escapeHtml(page.data.title || "Untitled")}</h1>
-      <div class="content">
-        ${markdownToHtml(page.content)}
+    <article class="page marginalia">
+      <p class="caps page-label">About</p>
+      <div class="page-prose">
+        <h1>${escapeHtml(page.data.title || "Untitled")}</h1>
+        <div class="content">
+          ${markdownToHtml(page.content)}
+        </div>
       </div>
     </article>
   `;
@@ -261,147 +259,96 @@ function renderPage(page) {
 
 function renderTagPage(tag, taggedPosts) {
   return `
-    <section class="hero">
-      <p class="eyebrow">Tag</p>
-      <h1>${escapeHtml(tag)}</h1>
-      <p>${taggedPosts.length} ${taggedPosts.length === 1 ? "piece" : "pieces"} saved here.</p>
-    </section>
-    <div class="post-list">
-      ${taggedPosts.map(renderPostCard).join("\n")}
+    ${renderArchiveHeader("Tag", tag, `${formatCount(taggedPosts.length)} tagged here.`)}
+    <div class="post-list archive-list">
+      ${taggedPosts.map(renderPostRow).join("\n")}
     </div>
   `;
 }
 
 function renderCategoriesIndexPage(categories) {
   return `
-    <section class="hero">
-      <p class="eyebrow">Browse</p>
-      <h1>Categories</h1>
-      <p>Each post has one main category, so the site stays easy to scan as it grows.</p>
-    </section>
-    <div class="category-grid">
-      ${categories.map(renderCategoryCard).join("\n")}
-    </div>
+    ${renderArchiveHeader("Browse", "Sections", "Tools, technical writing, and notes from learning by shipping.")}
+    ${renderSectionsBlock(categories, false)}
   `;
 }
 
 function renderCategoryPage(category) {
   return `
-    <section class="hero">
-      <p class="eyebrow">Category</p>
-      <h1>${escapeHtml(category.label)}</h1>
-      <p>${escapeHtml(category.description)} ${category.posts.length} ${category.posts.length === 1 ? "piece" : "pieces"} here.</p>
-    </section>
-    <div class="post-list">
-      ${category.posts.map(renderPostCard).join("\n") || "<p>No posts in this category yet.</p>"}
+    ${renderArchiveHeader("Section", category.label, category.description)}
+    <div class="post-list archive-list">
+      ${category.posts.map(renderPostRow).join("\n")}
     </div>
   `;
 }
 
-function renderCategoryCard(category) {
+function renderArchiveHeader(label, title, description) {
   return `
-    <article class="category-card">
-      <a href="${withBase(`/categories/${category.slug}/`)}">
-        <span>${escapeHtml(category.label)}</span>
-        <small>${escapeHtml(category.description)}</small>
-        <strong>${category.posts.length} ${category.posts.length === 1 ? "piece" : "pieces"}</strong>
-      </a>
-    </article>
-  `;
-}
-
-function renderPostCard(post) {
-  const postUrl = withBase(`/posts/${post.slug}/`);
-  const title = post.data.title || "Untitled";
-
-  return `
-    <article class="post-card" data-href="${escapeHtml(postUrl)}" role="link" tabindex="0" aria-label="Read ${escapeHtml(title)}" onclick="if (!event.target.closest('a')) window.location.href = this.dataset.href" onkeydown="if ((event.key === 'Enter' || event.key === ' ') && !event.target.closest('a')) { event.preventDefault(); window.location.href = this.dataset.href; }">
-      <h2><a href="${postUrl}">${escapeHtml(title)}</a></h2>
-      ${renderMeta(post)}
-      <p class="post-summary">${escapeHtml(post.data.summary || "")}</p>
-      ${renderTags(post.tags)}
-    </article>
-  `;
-}
-
-function renderMeta(post) {
-  const parts = [
-    `<time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>`,
-    post.category
-      ? `<a class="category-link" href="${withBase(`/categories/${post.category.slug}/`)}">${escapeHtml(post.category.label)}</a>`
-      : "",
-    post.tags.length ? `<span>${post.tags.length} tags</span>` : ""
-  ].filter(Boolean);
-
-  return `
-    <p class="post-meta">
-      ${parts.join("\n")}
-    </p>
-  `;
-}
-
-function renderArticleDetails(post) {
-  const detailItems = [
-    {
-      label: "Posted",
-      value: `<time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>`
-    },
-    post.updated && post.updated !== post.date
-      ? {
-          label: "Updated",
-          value: `<time datetime="${escapeHtml(post.updated)}">${formatDate(post.updated)}</time>`
-        }
-      : null,
-    post.category
-      ? {
-          label: "Category",
-          value: `<a class="category-link" href="${withBase(`/categories/${post.category.slug}/`)}">${escapeHtml(post.category.label)}</a>`
-        }
-      : null,
-    post.tags.length
-      ? {
-          label: "Tags",
-          value: `<span class="article-detail-tags">${post.tags
-            .map((tag) => `<a class="tag" href="${withBase(`/tags/${slugify(tag)}/`)}">${escapeHtml(tag)}</a>`)
-            .join("")}</span>`
-        }
-      : null
-  ].filter(Boolean);
-
-  return `
-    <section class="article-details" aria-label="Article details">
-      <div class="article-detail-grid">
-        ${detailItems
-          .map(
-            (item) => `
-              <div class="article-detail">
-                <span>${escapeHtml(item.label)}</span>
-                <strong>${item.value}</strong>
-              </div>
-            `
-          )
-          .join("")}
+    <section class="archive-head marginalia">
+      <p class="caps archive-label">${escapeHtml(label)}</p>
+      <div>
+        <h1>${escapeHtml(title)}</h1>
+        <p>${escapeHtml(description)}</p>
       </div>
-      ${post.data.summary ? `<p>${escapeHtml(post.data.summary)}</p>` : ""}
     </section>
   `;
 }
 
-function renderTags(tags) {
-  if (!tags.length) return "";
+function renderSectionsBlock(categories, showLabel = true) {
+  return `
+    <section class="sections-block marginalia" ${showLabel ? 'aria-labelledby="sections-heading"' : 'aria-label="Sections"'}>
+      ${showLabel ? '<h2 class="caps" id="sections-heading">Sections</h2>' : '<span aria-hidden="true"></span>'}
+      <nav class="section-list" ${showLabel ? 'aria-labelledby="sections-heading"' : 'aria-label="Sections"'}>
+        ${categories.map(renderCategoryRow).join("\n")}
+      </nav>
+    </section>
+  `;
+}
+
+function renderCategoryRow(category) {
+  return `
+    <a class="section-row" href="${withBase(`/categories/${category.slug}/`)}">
+      <span>${escapeHtml(category.label)}</span>
+      <small>${formatCount(category.posts.length)}</small>
+    </a>
+  `;
+}
+
+function renderPostRow(post) {
+  const postUrl = withBase(`/posts/${post.slug}/`);
+  const title = post.data.title || "Untitled";
 
   return `
-    <nav class="tag-list" aria-label="Post tags">
-      ${tags
-        .map((tag) => `<a class="tag" href="${withBase(`/tags/${slugify(tag)}/`)}">${escapeHtml(tag)}</a>`)
-        .join("")}
-    </nav>
+    <a class="post-row marginalia" href="${postUrl}">
+      <span class="post-margin">
+        <time class="caps" datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
+        <span class="caps post-category">${escapeHtml(post.category.label)}</span>
+      </span>
+      <span class="post-copy">
+        <h3 class="post-title">${escapeHtml(title)}</h3>
+        <span class="post-summary">${escapeHtml(post.data.summary || "")}</span>
+      </span>
+    </a>
+  `;
+}
+
+function renderArticleMargin(post) {
+  return `
+    <div class="article-margin caps">
+      <time datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
+      <a class="article-category" href="${withBase(`/categories/${post.category.slug}/`)}">${escapeHtml(post.category.label)}</a>
+      ${post.updated && post.updated !== post.date ? `<span>Updated <time datetime="${escapeHtml(post.updated)}">${formatDate(post.updated)}</time></span>` : ""}
+      ${post.tags.length ? `<nav class="article-tags" aria-label="Article tags">${post.tags
+        .map((tag) => `<a href="${withBase(`/tags/${slugify(tag)}/`)}">${escapeHtml(tag)}</a>`)
+        .join("")}</nav>` : ""}
+    </div>
   `;
 }
 
 function renderLayout({ title, description, body }) {
-  const socialNavLinks = getSocialLinks()
-    .map((link) => renderSocialAnchor(link, "nav-social-link"))
+  const socialNavLinks = getSocialLinks().map(renderHeaderSocialAnchor).join("");
+  const footerSocialLinks = getSocialLinks()
+    .map((link) => `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`)
     .join("");
 
   return `<!doctype html>
@@ -411,16 +358,16 @@ function renderLayout({ title, description, body }) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>${escapeHtml(title)}</title>
     <meta name="description" content="${escapeHtml(description)}">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="alternate" type="application/feed+json" title="${escapeHtml(config.title)}" href="${absoluteUrl("/feed.json")}">
     <link rel="stylesheet" href="${withBase("/styles.css")}">
   </head>
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a class="brand" href="${withBase("/")}">
-          <span class="brand-title">${escapeHtml(config.title)}</span>
-          <span class="brand-subtitle">${escapeHtml(config.author)}</span>
-        </a>
-        <nav class="nav" aria-label="Primary navigation">
+        <a class="name" href="${withBase("/")}">Ullas</a>
+        <nav class="site-nav caps" aria-label="Primary navigation">
           ${config.nav.map((item) => `<a href="${withBase(item.href)}">${escapeHtml(item.label)}</a>`).join("")}
           ${socialNavLinks}
         </nav>
@@ -429,7 +376,11 @@ function renderLayout({ title, description, body }) {
         ${body}
       </main>
       <footer class="site-footer">
-        <span>A basic place for longer writing. Last generated ${new Date().toISOString().slice(0, 10)}.</span>
+        <span class="footer-mark">❦ © 2026 Ullas</span>
+        <nav class="caps" aria-label="Footer navigation">
+          ${footerSocialLinks}
+          <a href="${withBase("/feed.json")}">RSS</a>
+        </nav>
       </footer>
     </div>
   </body>
@@ -445,31 +396,23 @@ function getSocialLinks() {
   ].filter(Boolean);
 }
 
-function renderSocialLinks() {
-  const links = getSocialLinks();
-  if (!links.length) return "";
-
-  return `
-    <nav class="social-links" aria-label="Social links">
-      ${links.map((link) => renderSocialAnchor(link, "social-link")).join("")}
-    </nav>
-  `;
-}
-
-function renderSocialAnchor(link, className) {
-  return `<a class="${className}" href="${escapeHtml(link.href)}" aria-label="${escapeHtml(link.label)} profile" title="${escapeHtml(link.label)} profile" target="_blank" rel="noopener noreferrer">${renderSocialIcon(link.id)}<span>${escapeHtml(link.label)}</span></a>`;
+function renderHeaderSocialAnchor(link) {
+  return `<a class="btn" href="${escapeHtml(link.href)}" aria-label="${escapeHtml(link.label)} profile" target="_blank" rel="noopener noreferrer">${renderSocialIcon(link.id)}<span>${escapeHtml(link.label)}</span></a>`;
 }
 
 function renderSocialIcon(id) {
   if (id === "github") {
-    return `<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2C6.48 2 2 6.58 2 12.24c0 4.52 2.87 8.35 6.84 9.71.5.09.68-.22.68-.49v-1.73c-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.36-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05A9.33 9.33 0 0 1 12 6.98c.85 0 1.71.12 2.51.34 1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.8-4.57 5.05.36.32.68.95.68 1.91v2.77c0 .27.18.59.69.49A10.08 10.08 0 0 0 22 12.24C22 6.58 17.52 2 12 2Z"/></svg>`;
+    return `<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>`;
   }
 
-  return `<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18.9 2.7h3.2l-7 8 8.2 10.8h-6.4l-5-6.5-5.7 6.5H3l7.5-8.6L2.6 2.7h6.6l4.5 5.9 5.2-5.9Zm-1.1 16.9h1.8L8.2 4.5H6.3l11.5 15.1Z"/></svg>`;
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
 }
 
 function markdownToHtml(markdown) {
-  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const lines = markdown
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/\r\n/g, "\n")
+    .split("\n");
   const html = [];
   let paragraph = [];
   let listType = null;
@@ -478,7 +421,9 @@ function markdownToHtml(markdown) {
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
-    html.push(`<p>${inlineMarkdown(paragraph.join(" "))}</p>`);
+    const source = paragraph.join(" ");
+    const className = isConsecutiveLinkParagraph(source) ? ' class="post-links"' : "";
+    html.push(`<p${className}>${inlineMarkdown(source)}</p>`);
     paragraph = [];
   };
 
@@ -555,6 +500,11 @@ function markdownToHtml(markdown) {
       continue;
     }
 
+    if (listType && /^\s{2,}\S/.test(line) && html.at(-1)?.startsWith("<li>")) {
+      html[html.length - 1] = html.at(-1).replace(/<\/li>$/, ` ${inlineMarkdown(trimmed)}</li>`);
+      continue;
+    }
+
     closeList();
     paragraph.push(trimmed);
   }
@@ -569,6 +519,12 @@ function markdownToHtml(markdown) {
   return html.join("\n");
 }
 
+function isConsecutiveLinkParagraph(text) {
+  const links = text.match(/\[[^\]]+\]\([^)]+\)/g) || [];
+  if (links.length < 2) return false;
+  return text.replace(/\[[^\]]+\]\([^)]+\)/g, "").trim() === "";
+}
+
 function inlineMarkdown(text) {
   const codeSpans = [];
   let output = text.replace(/`([^`]+)`/g, (_, code) => {
@@ -578,7 +534,11 @@ function inlineMarkdown(text) {
   });
 
   output = escapeHtml(output);
-  output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>');
+  output = output.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_, label, href) => {
+    if (!/^(?:https?:\/\/|\/|#|mailto:)/.test(href)) return label;
+    const resolvedHref = href.startsWith("/") ? withBase(href) : href;
+    return `<a href="${resolvedHref}">${label}</a>`;
+  });
   output = output.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   output = output.replace(/\*([^*]+)\*/g, "<em>$1</em>");
 
@@ -623,7 +583,7 @@ function collectCategories(categoryPosts) {
     grouped.set(post.category.slug, existing);
   }
 
-  return [...grouped.values()];
+  return [...grouped.values()].filter((category) => category.posts.length > 0);
 }
 
 function collectTags(taggedPosts) {
@@ -659,11 +619,15 @@ function slugify(value) {
 
 function formatDate(date) {
   return new Intl.DateTimeFormat("en", {
-    month: "short",
+    month: "long",
     day: "numeric",
     year: "numeric",
     timeZone: "UTC"
   }).format(new Date(`${date}T00:00:00Z`));
+}
+
+function formatCount(value) {
+  return `${value} ${value === 1 ? "piece" : "pieces"}`;
 }
 
 function normalizeBaseUrl(value) {
