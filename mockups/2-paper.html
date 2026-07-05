@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper — Ullas Srivastava</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper: #faf6ee; --ink: #2b2620; --muted: #8a7f6f; --accent: #8c3b2e; --line: #e2d9c8; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: "Newsreader", serif; line-height: 1.65; }
+  .shell { max-width: 620px; margin: 0 auto; padding: 56px 24px 96px; }
+  .caps { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  header { text-align: center; padding-bottom: 40px; }
+  header nav { margin-top: 14px; }
+  header nav a { color: var(--muted); text-decoration: none; margin: 0 10px; }
+  header nav a:hover { color: var(--accent); }
+  .name { font-size: 34px; font-weight: 500; font-style: italic; letter-spacing: 0.01em; }
+  .intro { text-align: center; font-size: 21px; font-weight: 300; max-width: 480px; margin: 0 auto; color: #4d443a; }
+  .intro em { color: var(--ink); }
+  .orn { text-align: center; color: var(--muted); font-size: 18px; margin: 44px 0; letter-spacing: 0.6em; }
+  .post { display: block; text-decoration: none; color: inherit; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .post:first-of-type { border-top: 1px solid var(--line); }
+  .post h2 { font-size: 27px; font-weight: 500; line-height: 1.25; margin: 6px 0 8px; }
+  .post:hover h2 { color: var(--accent); }
+  .post p { color: #5b5142; font-size: 17px; }
+  .post .caps a { color: var(--accent); }
+  .more { text-align: center; margin-top: 36px; }
+  .more a { font-style: italic; color: var(--accent); font-size: 18px; text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  footer { margin-top: 72px; text-align: center; }
+  footer .caps a { color: var(--muted); text-decoration: none; margin: 0 8px; }
+  footer .caps a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div class="name">Ullas Srivastava</div>
+    <nav class="caps"><a href="#">Writing</a>·<a href="#">Sections</a>·<a href="#">About</a></nav>
+  </header>
+  <p class="intro">Notes on <em>building</em>, <em>learning</em>, and the occasional thing worth remembering — written when it might help someone else.</p>
+  <div class="orn">✦ ✦ ✦</div>
+  <a class="post" href="#">
+    <span class="caps">June 21, 2026 — Building</span>
+    <h2>AI-ingest: one short brief instead of the morning firehose</h2>
+    <p>A personal AI news filter that collects the useful updates, scores them against what I care about, and hands me a short morning brief.</p>
+  </a>
+  <a class="post" href="#">
+    <span class="caps">June 21, 2026 — Building</span>
+    <h2>LaunchGuard: is this AI-built app actually ready to ship?</h2>
+    <p>A launch-readiness scanner for AI-built SaaS apps that turns repository risks into a plain-English report.</p>
+  </a>
+  <a class="post" href="#">
+    <span class="caps">June 16, 2026 — Technical Writing</span>
+    <h2>Computer Use on Codex, with exactly enough access</h2>
+    <p>Computer Use is powerful, but the smarter workflow is to give the agent precisely the access the task needs — no more.</p>
+  </a>
+  <div class="more"><a href="#">Browse the archive →</a></div>
+  <footer>
+    <div class="orn" style="margin: 0 0 20px;">❦</div>
+    <div class="caps"><a href="#">GitHub</a>·<a href="#">X</a>·<a href="#">RSS</a></div>
+  </footer>
+</div>
+</body>
+</html>

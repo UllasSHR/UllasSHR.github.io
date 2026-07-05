@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Four directions</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #e8e8e8; font-family: ui-sans-serif, system-ui, sans-serif; padding: 28px; }
+  h1 { font-size: 20px; margin-bottom: 4px; }
+  .hint { color: #666; font-size: 13px; margin-bottom: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1400px; margin: 0 auto; }
+  .cell a.title { display: flex; justify-content: space-between; font-weight: 600; font-size: 15px; color: #111; text-decoration: none; padding: 0 2px 8px; }
+  .cell a.title:hover { color: #3524ff; }
+  .frame { position: relative; width: 100%; aspect-ratio: 1280 / 860; overflow: hidden; border-radius: 8px; box-shadow: 0 2px 14px rgba(0,0,0,0.18); background: #fff; }
+  .frame iframe { width: 1280px; height: 1720px; border: 0; transform-origin: 0 0; position: absolute; }
+  .frame a.overlay { position: absolute; inset: 0; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="cell">
+    <a class="title" href="1-ink.html"><span>1 · Ink — brutalist editorial</span><span>open ↗</span></a>
+    <div class="frame"><iframe src="1-ink.html" scrolling="no" tabindex="-1"></iframe><a class="overlay" href="1-ink.html"></a></div>
+  </div>
+  <div class="cell">
+    <a class="title" href="2-paper.html"><span>2 · Paper — literary serif</span><span>open ↗</span></a>
+    <div class="frame"><iframe src="2-paper.html" scrolling="no" tabindex="-1"></iframe><a class="overlay" href="2-paper.html"></a></div>
+  </div>
+  <div class="cell">
+    <a class="title" href="3-terminal.html"><span>3 · Terminal — dark engineer</span><span>open ↗</span></a>
+    <div class="frame"><iframe src="3-terminal.html" scrolling="no" tabindex="-1"></iframe><a class="overlay" href="3-terminal.html"></a></div>
+  </div>
+  <div class="cell">
+    <a class="title" href="4-studio.html"><span>4 · Studio — bold Swiss</span><span>open ↗</span></a>
+    <div class="frame"><iframe src="4-studio.html" scrolling="no" tabindex="-1"></iframe><a class="overlay" href="4-studio.html"></a></div>
+  </div>
+</div>
+<script>
+  function fit() {
+    document.querySelectorAll('.frame').forEach(f => {
+      const s = f.clientWidth / 1280;
+      f.querySelector('iframe').style.transform = `scale(${s})`;
+    });
+  }
+  fit(); addEventListener('resize', fit);
+</script>
+</body>
+</html>

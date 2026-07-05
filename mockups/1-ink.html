@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ink — Ullas Srivastava</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #0a0a0a; --paper: #ffffff; --accent: #ff3e00; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: "Archivo", sans-serif; }
+  .mono { font-family: "Space Mono", monospace; font-size: 12px; letter-spacing: 0.02em; }
+  .shell { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+  .topbar { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 3px solid var(--ink); text-transform: uppercase; }
+  .topbar nav a { color: var(--ink); text-decoration: none; margin-left: 20px; }
+  .topbar nav a:hover { color: var(--accent); }
+  h1 { font-variation-settings: "wdth" 68; font-weight: 900; font-size: clamp(64px, 12vw, 148px); line-height: 0.92; text-transform: uppercase; letter-spacing: -0.01em; padding: 48px 0 8px; }
+  .tagline { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 12px 0 20px; border-bottom: 3px solid var(--ink); }
+  .tagline p { max-width: 560px; }
+  .sec { padding: 40px 0 8px; text-transform: uppercase; color: var(--accent); }
+  .post { display: grid; grid-template-columns: 72px 1fr 200px; gap: 24px; align-items: baseline; padding: 26px 0; border-bottom: 1px solid var(--ink); text-decoration: none; color: var(--ink); }
+  .post:hover { background: var(--ink); color: var(--paper); }
+  .post:hover .num { color: var(--accent); }
+  .num { font-family: "Space Mono", monospace; font-size: 14px; }
+  .post h2 { font-weight: 800; font-size: 34px; line-height: 1.05; text-transform: uppercase; font-variation-settings: "wdth" 75; }
+  .post p { margin-top: 8px; font-size: 15px; max-width: 620px; opacity: 0.75; text-transform: none; font-weight: 400; }
+  .post .meta { text-align: right; }
+  .cats { display: flex; flex-wrap: wrap; gap: 0; margin-top: 0; border-bottom: 3px solid var(--ink); }
+  .cats a { flex: 1 1 auto; padding: 18px 20px; border-right: 1px solid var(--ink); color: var(--ink); text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 14px; }
+  .cats a:first-child { padding-left: 0; }
+  .cats a:last-child { border-right: 0; }
+  .cats a span { display: block; font-family: "Space Mono", monospace; font-weight: 400; font-size: 12px; margin-top: 4px; opacity: 0.6; }
+  .cats a:hover { color: var(--accent); }
+  footer { display: flex; justify-content: space-between; padding-top: 20px; }
+  footer a { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header class="topbar mono">
+    <span>Ullas Srivastava</span>
+    <nav><a href="#">Index</a><a href="#">About</a><a href="#">GitHub</a><a href="#">X</a></nav>
+  </header>
+  <h1>Ullas<br>Srivastava</h1>
+  <div class="tagline">
+    <p>I build and ship things, then write down what I learned — so it might help someone else finish theirs.</p>
+    <span class="mono">EST. 2026 — WRITING, BUILDING, LEARNING</span>
+  </div>
+  <p class="sec mono">Latest writing</p>
+  <a class="post" href="#">
+    <span class="num">001</span>
+    <div><h2>AI-ingest</h2><p>A personal AI news filter that turns the daily AI firehose into one short morning brief.</p></div>
+    <span class="meta mono">Building · Jun 21 2026</span>
+  </a>
+  <a class="post" href="#">
+    <span class="num">002</span>
+    <div><h2>LaunchGuard</h2><p>A launch-readiness scanner for AI-built SaaS apps that turns repo risks into a plain-English report.</p></div>
+    <span class="meta mono">Building · Jun 21 2026</span>
+  </a>
+  <a class="post" href="#" style="border-bottom: 3px solid var(--ink);">
+    <span class="num">003</span>
+    <div><h2>Computer Use on Codex</h2><p>Computer Use is powerful, but the smarter workflow is to give Codex exactly enough access for the task.</p></div>
+    <span class="meta mono">Technical Writing · Jun 16 2026</span>
+  </a>
+  <p class="sec mono">Sections</p>
+  <div class="cats">
+    <a href="#">Building<span>3 posts</span></a>
+    <a href="#">Technical Writing<span>1 post</span></a>
+    <a href="#">Learning<span>soon</span></a>
+  </div>
+  <footer class="mono">
+    <span>© 2026 ULLAS SRIVASTAVA</span>
+    <span><a href="#">GITHUB</a> — <a href="#">X</a> — <a href="#">RSS</a></span>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper v2 — Ullas Srivastava</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --paper: #faf6ee; --ink: #2b2620; --muted: #8a7f6f; --accent: #33476b; --line: #e2d9c8; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font-family: "Newsreader", serif; line-height: 1.65; }
+  .shell { max-width: 1020px; margin: 0 auto; padding: 40px 32px 90px; }
+  .caps { font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .name { font-size: 40px; font-weight: 500; font-style: italic; letter-spacing: 0.01em; line-height: 1; }
+  .name::first-letter { color: var(--accent); }
+  header nav a { color: var(--muted); text-decoration: none; margin-left: 22px; }
+  header nav a:hover { color: var(--accent); }
+  header nav a.btn { display: inline-flex; align-items: center; gap: 8px; vertical-align: middle; border: 1px solid var(--accent); color: var(--accent); border-radius: 999px; padding: 9px 16px; margin-left: 12px; transition: background 140ms ease, color 140ms ease; }
+  header nav a.btn svg { width: 18px; height: 18px; fill: currentColor; display: block; }
+  header nav a.btn:hover { background: var(--accent); color: var(--paper); }
+  .cta { margin-top: 24px; font-style: italic; font-size: 17px; }
+  .cta a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+  .cta a:hover { border-color: var(--accent); }
+  .sw { width: 16px; height: 16px; border-radius: 50%; border: 1px solid rgba(43, 38, 32, 0.25); cursor: pointer; margin-left: 7px; vertical-align: -3px; padding: 0; }
+  .hero { display: grid; grid-template-columns: 190px 1fr; gap: 40px; padding: 64px 0 58px; }
+  .hero .caps { padding-top: 14px; }
+  .hero h1 { font-size: clamp(30px, 4.2vw, 46px); font-weight: 400; line-height: 1.28; max-width: 640px; }
+  .hero h1 em { color: var(--accent); }
+  .hero .aside { font-size: 16px; color: var(--muted); font-style: italic; margin-top: 18px; max-width: 480px; }
+  .rule { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid var(--ink); padding: 12px 0 0; }
+  .post { display: grid; grid-template-columns: 190px 1fr; gap: 40px; padding: 34px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: inherit; }
+  .post .margin { padding-top: 7px; }
+  .post .margin .caps { display: block; line-height: 1.9; }
+  .post .margin .cat { color: var(--accent); }
+  .post h2 { font-size: 29px; font-weight: 500; line-height: 1.22; margin-bottom: 8px; max-width: 620px; }
+  .post:hover h2 { color: var(--accent); font-style: italic; }
+  .post p { color: #5b5142; font-size: 17.5px; max-width: 600px; }
+  .bottom { display: grid; grid-template-columns: 190px 1fr; gap: 40px; padding-top: 40px; }
+  .bottom .sections a { display: block; color: var(--ink); text-decoration: none; font-size: 19px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .bottom .sections a:hover { color: var(--accent); font-style: italic; }
+  .bottom .sections a small { font-family: "Inter", sans-serif; font-size: 11px; color: var(--muted); letter-spacing: 0.1em; margin-left: 10px; }
+  footer { display: flex; justify-content: space-between; margin-top: 88px; padding-top: 18px; border-top: 1px solid var(--ink); }
+  footer a { color: var(--muted); text-decoration: none; margin-left: 16px; }
+  footer a:hover { color: var(--accent); }
+  @media (max-width: 720px) { .hero, .post, .bottom { grid-template-columns: 1fr; gap: 10px; } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <span class="name">Ullas</span>
+    <nav class="caps"><a href="#">Writing</a><a href="#">Sections</a><a href="#">About</a><a class="btn" href="#"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a><a class="btn" href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a></nav>
+  </header>
+  <section class="hero">
+    <span class="caps">Est. 2026<br>Writing · Building</span>
+    <div>
+      <h1>Notes on <em>building</em> and <em>learning</em> — written down when they might help someone else finish their own thing.</h1>
+      <p class="aside">Project notes, build logs, and lessons from shipping, by a 19-year-old open-source developer.</p>
+      <p class="cta">Everything here is built in the open — <a href="#">browse the code on GitHub ↗</a></p>
+    </div>
+  </section>
+  <div class="rule"><span class="caps" style="color: var(--ink);">Latest writing</span><span class="caps">Three pieces</span></div>
+  <a class="post" href="#">
+    <span class="margin"><span class="caps">June 21, 2026</span><span class="caps cat">Building</span></span>
+    <div>
+      <h2>AI-ingest: one short brief instead of the morning firehose</h2>
+      <p>A personal AI news filter that collects the useful updates, scores them against what I care about, and hands me a short morning brief.</p>
+    </div>
+  </a>
+  <a class="post" href="#">
+    <span class="margin"><span class="caps">June 21, 2026</span><span class="caps cat">Building</span></span>
+    <div>
+      <h2>LaunchGuard: is this AI-built app actually ready to ship?</h2>
+      <p>A launch-readiness scanner for AI-built SaaS apps that turns repository risks into a plain-English report.</p>
+    </div>
+  </a>
+  <a class="post" href="#">
+    <span class="margin"><span class="caps">June 16, 2026</span><span class="caps cat">Technical Writing</span></span>
+    <div>
+      <h2>Computer Use on Codex, with exactly enough access</h2>
+      <p>Computer Use is powerful, but the smarter workflow is to give the agent precisely the access the task needs — no more.</p>
+    </div>
+  </a>
+  <div class="bottom">
+    <span class="caps" style="padding-top: 14px;">Sections</span>
+    <div class="sections">
+      <a href="#">Building <small>3 PIECES</small></a>
+      <a href="#">Technical Writing <small>1 PIECE</small></a>
+      <a href="#">Learning <small>SOON</small></a>
+    </div>
+  </div>
+  <footer>
+    <span class="caps" style="font-family: 'Newsreader', serif; font-style: italic; font-size: 15px; text-transform: none; letter-spacing: 0;">❦ © 2026 Ullas</span>
+    <span class="caps">Try an accent:
+      <button class="sw" title="Navy (current)" data-c="#33476b" style="background:#33476b"></button>
+      <button class="sw" title="Oxblood" data-c="#8c3b2e" style="background:#8c3b2e"></button>
+      <button class="sw" title="Forest" data-c="#3f5c45" style="background:#3f5c45"></button>
+      <button class="sw" title="Mustard" data-c="#96690f" style="background:#96690f"></button>
+    </span>
+    <nav class="caps"><a href="#">GitHub</a><a href="#">X</a><a href="#">RSS</a></nav>
+  </footer>
+</div>
+<script>
+  document.querySelectorAll('.sw').forEach(b => b.onclick = () =>
+    document.documentElement.style.setProperty('--accent', b.dataset.c));
+</script>
+</body>
+</html>

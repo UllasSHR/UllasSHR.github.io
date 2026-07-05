@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio — Ullas Srivastava</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f1f0ea; --ink: #131313; --muted: #6f6f68; --accent: #3524ff; --line: #d8d6cc; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Inter", sans-serif; }
+  .grotesk { font-family: "Space Grotesk", sans-serif; }
+  .shell { max-width: 1150px; margin: 0 auto; padding: 24px 28px 72px; }
+  header { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 500; padding-bottom: 18px; }
+  header a { color: var(--ink); text-decoration: none; margin-left: 24px; }
+  header a:hover { color: var(--accent); }
+  .hero { border-top: 1px solid var(--ink); padding: 40px 0 48px; }
+  .hero .kicker { color: var(--accent); font-weight: 500; font-size: 14px; margin-bottom: 16px; }
+  h1 { font-family: "Space Grotesk", sans-serif; font-size: clamp(52px, 9vw, 110px); line-height: 0.98; letter-spacing: -0.04em; font-weight: 700; }
+  h1 .thin { color: var(--muted); font-weight: 400; }
+  .hero .sub { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-top: 36px; }
+  .hero .sub p { max-width: 460px; font-size: 17px; line-height: 1.6; color: #3a3a35; }
+  .pill { display: inline-block; border: 1px solid var(--ink); border-radius: 999px; padding: 10px 22px; font-weight: 500; font-size: 14px; color: var(--ink); text-decoration: none; white-space: nowrap; }
+  .pill:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .label { font-size: 13px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 14px 0; border-top: 1px solid var(--ink); display: flex; justify-content: space-between; }
+  .index a.row { display: grid; grid-template-columns: 60px 1fr 200px 110px; gap: 24px; align-items: center; padding: 24px 0; border-top: 1px solid var(--line); color: var(--ink); text-decoration: none; transition: padding-left 160ms ease; }
+  .index a.row:hover { padding-left: 16px; color: var(--accent); }
+  .index .no { font-family: "Space Grotesk", sans-serif; color: var(--muted); font-size: 14px; }
+  .index h2 { font-family: "Space Grotesk", sans-serif; font-size: 30px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; }
+  .index .cat, .index .date { font-size: 14px; color: var(--muted); }
+  .index .date { text-align: right; }
+  .strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
+  .card { border: 1px solid var(--ink); border-radius: 14px; padding: 22px; text-decoration: none; color: var(--ink); min-height: 140px; display: grid; align-content: space-between; }
+  .card:hover { background: #fff; }
+  .card .t { font-family: "Space Grotesk", sans-serif; font-size: 21px; font-weight: 500; letter-spacing: -0.01em; }
+  .card .c { font-size: 13px; color: var(--muted); }
+  .card .n { font-family: "Space Grotesk", sans-serif; color: var(--accent); font-size: 14px; }
+  footer { margin-top: 72px; border-top: 1px solid var(--ink); padding-top: 20px; display: flex; justify-content: space-between; font-size: 14px; color: var(--muted); }
+  footer .big { font-family: "Space Grotesk", sans-serif; font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.03em; color: var(--ink); font-weight: 700; }
+  footer a { color: var(--ink); text-decoration: none; margin-left: 18px; }
+  footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <span class="grotesk" style="font-weight:700; font-size:16px;">US®</span>
+    <nav><a href="#">Writing</a><a href="#">Sections</a><a href="#">About</a><a href="#">GitHub ↗</a></nav>
+  </header>
+  <section class="hero">
+    <div class="kicker">Builder · Writer · 19</div>
+    <h1>I build things,<br><span class="thin">then write down</span><br>what I learned.</h1>
+    <div class="sub">
+      <p>Ullas Srivastava — open-source developer. Project notes, build logs, and lessons from shipping, published when they might help someone else finish their own thing.</p>
+      <a class="pill" href="#">Read the latest ↓</a>
+    </div>
+  </section>
+  <div class="label"><span>Selected writing</span><span>2026</span></div>
+  <div class="index">
+    <a class="row" href="#">
+      <span class="no">01</span><h2>AI-ingest</h2><span class="cat">Building</span><span class="date">Jun 21</span>
+    </a>
+    <a class="row" href="#">
+      <span class="no">02</span><h2>LaunchGuard</h2><span class="cat">Building</span><span class="date">Jun 21</span>
+    </a>
+    <a class="row" href="#" style="border-bottom: 1px solid var(--line);">
+      <span class="no">03</span><h2>Computer Use on Codex</h2><span class="cat">Technical Writing</span><span class="date">Jun 16</span>
+    </a>
+  </div>
+  <div class="strip">
+    <a class="card" href="#"><div><div class="t">Building</div><div class="c">Tools, projects, experiments.</div></div><span class="n">3 →</span></a>
+    <a class="card" href="#"><div><div class="t">Technical Writing</div><div class="c">Agent workflows, explainers.</div></div><span class="n">1 →</span></a>
+    <a class="card" href="#"><div><div class="t">Learning</div><div class="c">Lessons worth remembering.</div></div><span class="n">soon →</span></a>
+  </div>
+  <footer>
+    <div>
+      <div class="big">Say hello.</div>
+      <div style="margin-top:8px;">© 2026 Ullas Srivastava</div>
+    </div>
+    <nav><a href="#">GitHub</a><a href="#">X</a><a href="#">RSS</a></nav>
+  </footer>
+</div>
+</body>
+</html>
