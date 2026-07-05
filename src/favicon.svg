@@ -1,4 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="12" fill="#faf6ee"/>
-  <text x="31" y="47" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="46" fill="#33476b" text-anchor="middle">U</text>
+  <rect width="64" height="64" rx="13" fill="#33476b"/>
+  <g transform="rotate(-32 32 31) translate(32 31) scale(0.8) translate(-32 -31)">
+    <path fill="#faf6ee" d="M32 45 C21 38, 13.5 30, 13.5 21 C13.5 13.5, 20 9.5, 26.5 12.5 C29.5 14, 31 16.5, 32 19.5 C33 16.5, 34.5 14, 37.5 12.5 C44 9.5, 50.5 13.5, 50.5 21 C50.5 30, 43 38, 32 45 Z"/>
+    <path fill="none" stroke="#33476b" stroke-width="2.6" stroke-linecap="round" d="M32 21.5 L32 40"/>
+    <path fill="none" stroke="#faf6ee" stroke-width="4" stroke-linecap="round" d="M32 44.5 C31 51, 27.5 55.5, 21 57"/>
+  </g>
 </svg>

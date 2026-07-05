@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Favicon options</title>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #e9e7e0; font-family: ui-sans-serif, system-ui, sans-serif; padding: 40px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; max-width: 1300px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+  .card h2 { font-size: 15px; margin-bottom: 4px; }
+  .card p { font-size: 12px; color: #777; margin-bottom: 18px; min-height: 44px; }
+  .sizes { display: flex; align-items: flex-end; gap: 18px; margin-bottom: 20px; }
+  .sizes .s { text-align: center; }
+  .sizes .s small { display: block; margin-top: 6px; color: #999; font-size: 10px; }
+  .tab { display: flex; align-items: center; gap: 8px; background: #d5d2ca; border-radius: 8px 8px 0 0; padding: 8px 14px; width: 100%; }
+  .tab svg { flex: 0 0 16px; }
+  .tab span { font-size: 12px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+</style>
+</head>
+<body>
+<div class="grid" id="grid"></div>
+<script>
+const NAVY = "#33476b", CREAM = "#faf6ee";
+
+const options = [
+  {
+    name: "1 · Monogram block",
+    desc: "Navy tile, bold cream serif U. Classic, instantly readable, strong in a crowded tab bar.",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="13" fill="${NAVY}"/>
+      <text x="32" y="47" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="42" fill="${CREAM}" text-anchor="middle">U</text>
+    </svg>`
+  },
+  {
+    name: "2 · Fleuron",
+    desc: "The site's own ❦ ornament as a drawn leaf mark. Literary, unique — no one else's tab looks like this.",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="13" fill="${NAVY}"/>
+      <path fill="${CREAM}" d="M32 46 C 21 39, 13 30.5, 13 21.5 C13 13.5, 20 9.5, 26.5 12.5 C29.5 14, 31 16.5, 32 19.5 C33 16.5, 34.5 14, 37.5 12.5 C44 9.5, 51 13.5, 51 21.5 C51 30.5, 43 39, 32 46 Z"/>
+      <path fill="none" stroke="${NAVY}" stroke-width="2.4" stroke-linecap="round" d="M32 21 L32 41"/>
+      <path fill="none" stroke="${CREAM}" stroke-width="3.4" stroke-linecap="round" d="M32 45.5 C 30.5 51, 27 54.5, 22 55.5"/>
+    </svg>`
+  },
+  {
+    name: "3 · Marginalia",
+    desc: "The layout itself as a logo: margin column + text block. Abstract, modern, quietly clever.",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="13" fill="${NAVY}"/>
+      <rect x="13" y="15" width="7" height="34" rx="3.5" fill="${CREAM}"/>
+      <rect x="27" y="15" width="24" height="9" rx="4.5" fill="${CREAM}"/>
+      <rect x="27" y="27.5" width="24" height="9" rx="4.5" fill="${CREAM}" opacity="0.62"/>
+      <rect x="27" y="40" width="16" height="9" rx="4.5" fill="${CREAM}" opacity="0.62"/>
+    </svg>`
+  },
+  {
+    name: "4 · Cropped U",
+    desc: "A giant U bleeding off the tile, editorial-poster style. Bold without feeling corporate.",
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+      <defs><clipPath id="tile"><rect width="64" height="64" rx="13"/></clipPath></defs>
+      <rect width="64" height="64" rx="13" fill="${CREAM}"/>
+      <g clip-path="url(#tile)">
+        <text x="32" y="63" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="78" fill="${NAVY}" text-anchor="middle">U</text>
+      </g>
+    </svg>`
+  }
+];
+
+const grid = document.getElementById("grid");
+for (const o of options) {
+  const enc = "data:image/svg+xml," + encodeURIComponent(o.svg);
+  grid.insertAdjacentHTML("beforeend", `
+    <div class="card">
+      <h2>${o.name}</h2>
+      <p>${o.desc}</p>
+      <div class="sizes">
+        <div class="s"><img src="${enc}" width="64" height="64"><small>64</small></div>
+        <div class="s"><img src="${enc}" width="32" height="32"><small>32</small></div>
+        <div class="s"><img src="${enc}" width="16" height="16"><small>16 (tab)</small></div>
+      </div>
+      <div class="tab"><img src="${enc}" width="16" height="16"><span>Ullas Srivastava</span></div>
+    </div>
+  `);
+}
+</script>
+</body>
+</html>
