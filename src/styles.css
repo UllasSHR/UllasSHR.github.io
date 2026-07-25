@@ -456,6 +456,36 @@ main {
   margin: 0;
 }
 
+.article-figure {
+  margin: 34px 0;
+}
+
+.article-figure img {
+  display: block;
+  width: 100%;
+  max-height: 520px;
+  object-fit: cover;
+}
+
+.article-figure figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.article-figure--portrait {
+  float: right;
+  width: min(210px, 35%);
+  margin: 6px 0 24px 30px;
+}
+
+.article-figure--portrait img {
+  aspect-ratio: 4 / 5;
+  object-position: 43% center;
+}
+
 .content code {
   padding: 2px 5px;
   border: 1px solid var(--line);
@@ -647,6 +677,12 @@ main {
 
   .content {
     font-size: 18px;
+  }
+
+  .article-figure--portrait {
+    float: none;
+    width: min(68%, 230px);
+    margin: 28px 0 34px auto;
   }
 
   .post-links a + a {

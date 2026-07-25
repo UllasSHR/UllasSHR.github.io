@@ -1,9 +1,9 @@
 ---
 title: "About"
-summary: "About Ullas Srivastava, a 19-year-old open-source developer and builder writing about shipping projects, tools, and reflective ideas."
+summary: "About Ullas Srivastava, a 20-year-old open-source developer and builder writing about shipping projects, tools, and reflective ideas."
 ---
 
-I'm Ullas — a 19-year-old developer who learns by shipping.
+I'm Ullas — a 20-year-old developer who learns by shipping.
 
 Most of what I know comes from making real projects, breaking them, fixing them, and
 turning the work into something other people can use. Everything I build is open source.
