@@ -5,6 +5,7 @@ const root = process.cwd();
 const configPath = path.join(root, "site.config.json");
 const postsDir = path.join(root, "content", "posts");
 const pagesDir = path.join(root, "content", "pages");
+const publicDir = path.join(root, "public");
 const distDir = path.join(root, "dist");
 
 const config = JSON.parse(await fs.readFile(configPath, "utf8"));
@@ -16,6 +17,9 @@ await fs.mkdir(distDir, { recursive: true });
 await fs.mkdir(path.join(distDir, "posts"), { recursive: true });
 await fs.mkdir(path.join(distDir, "tags"), { recursive: true });
 await fs.mkdir(path.join(distDir, "categories"), { recursive: true });
+if (await pathExists(publicDir)) {
+  await fs.cp(publicDir, distDir, { recursive: true });
+}
 await fs.copyFile(path.join(root, "src", "styles.css"), path.join(distDir, "styles.css"));
 await fs.copyFile(path.join(root, "src", "favicon.svg"), path.join(distDir, "favicon.svg"));
 await fs.writeFile(path.join(distDir, ".nojekyll"), "");
@@ -255,7 +259,7 @@ function renderHome(homePosts, categories) {
       <p class="caps hero-label">Est. 2026<br>Writing · Building</p>
       <div class="hero-copy">
         <h1>Notes on <em>building</em> and <em>learning</em> — written down when they might help someone else finish their own thing.</h1>
-        <p class="hero-aside">Project notes, build logs, and lessons from shipping, by a 19-year-old open-source developer.</p>
+        <p class="hero-aside">Project notes, build logs, and lessons from shipping, by a 20-year-old open-source developer.</p>
         <p class="hero-cta">Everything here is built in the open — <a href="${escapeHtml(config.social.github)}" target="_blank" rel="noopener noreferrer">browse the code on GitHub ↗</a></p>
       </div>
     </section>
@@ -523,6 +527,22 @@ function markdownToHtml(markdown) {
       continue;
     }
 
+    const figure = trimmed.match(/^!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]*)")?\)$/);
+    if (figure) {
+      flushParagraph();
+      closeList();
+      const [variant = "", caption = ""] = (figure[3] || "").split("|", 2);
+      const className = variant === "portrait" ? " article-figure--portrait" : "";
+      const source = figure[2].startsWith("/") ? withBase(figure[2]) : figure[2];
+      html.push(`
+        <figure class="article-figure${className}">
+          <img src="${escapeHtml(source)}" alt="${escapeHtml(figure[1])}">
+          ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ""}
+        </figure>
+      `);
+      continue;
+    }
+
     const heading = trimmed.match(/^(#{1,3})\s+(.+)$/);
     if (heading) {
       flushParagraph();
@@ -618,6 +638,10 @@ function normalizeCategories(categories) {
     label: category.label,
     description: category.description || ""
   }));
+}
+
+async function pathExists(targetPath) {
+  return fs.stat(targetPath).then(() => true).catch(() => false);
 }
 
 function getCategory(slug) {
