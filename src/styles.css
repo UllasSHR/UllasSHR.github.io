@@ -66,6 +66,9 @@ main {
 }
 
 .name {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28em;
   flex: 0 0 auto;
   color: var(--ink);
   font-size: 40px;
@@ -77,6 +80,15 @@ main {
 
 .name::first-letter {
   color: var(--accent);
+}
+
+.name-surname {
+  color: var(--muted);
+  font-family: "Noto Serif Devanagari", "Devanagari Sangam MN", serif;
+  font-size: 0.62em;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.01em;
 }
 
 .site-nav {
@@ -589,6 +601,10 @@ main {
   .site-header {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .name {
+    font-size: 36px;
   }
 
   .site-nav {

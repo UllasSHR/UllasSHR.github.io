@@ -426,14 +426,16 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
     <meta name="twitter:card" content="summary">
     <link rel="icon" type="image/svg+xml" href="${withBase("/favicon.svg")}">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Noto+Serif+Devanagari:wght@400&display=swap" rel="stylesheet">
     <link rel="alternate" type="application/feed+json" title="${escapeHtml(config.title)}" href="${absoluteUrl("/feed.json")}">
     <link rel="stylesheet" href="${withBase("/styles.css")}">
   </head>
   <body>
     <div class="site-shell">
       <header class="site-header">
-        <a class="name" href="${withBase("/")}">Ullas</a>
+        <a class="name" href="${withBase("/")}">
+          <span>Ullas</span><span class="name-surname" lang="hi">श्रीवास्तव</span>
+        </a>
         <nav class="site-nav caps" aria-label="Primary navigation">
           ${config.nav.map((item) => `<a href="${withBase(item.href)}">${escapeHtml(item.label)}</a>`).join("")}
           ${socialNavLinks}
