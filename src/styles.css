@@ -83,12 +83,13 @@ main {
 }
 
 .name-surname {
-  color: var(--muted);
+  color: var(--ink);
   font-family: "Noto Serif Devanagari", "Devanagari Sangam MN", serif;
   font-size: 0.62em;
-  font-style: normal;
+  font-style: italic;
   font-weight: 400;
   letter-spacing: 0.01em;
+  transform: translateY(0.18em);
 }
 
 .site-nav {
