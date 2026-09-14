@@ -1,12 +1,14 @@
 ---
 title: "Last Seat Lab: Exploring databases and realtime synchronisation"
 date: "2026-08-04"
-updated: ""
+updated: "2026-09-13"
 summary: "What one shared seat taught me about transactions, realtime synchronisation, caller identity, and keeping one authoritative database truth."
 category: "technical-writing"
 tags: ["databases", "spacetimedb", "transactions", "realtime"]
 draft: false
 ---
+
+[Read the code and experiment notes](https://github.com/UllasSHR/last-seat-lab)
 
 ![A hand-drawn map of a seat moving through a reducer into one committed database state and two subscribed caches](/images/last-seat-lab/cover.jpg "wide|One table, one reducer, one shared truth.")
 
@@ -81,4 +83,15 @@ Temporary reset and deliberate-failure reducers helped us run experiments, but t
 - **React:** the rendering layer that responds when that cache changes.
 - **Connection state:** a reason to say unknown, not to invent availability.
 
-The Day 14 plan was to judge whether this work was worth studying more deeply from the evidence gathered. A formal decision was not recorded. What was recorded is the technical trail above: build the rule, race it, break it, restart it, test identity, remove unsafe helpers, and trace the realtime update all the way to the UI.
+The technical trail was enough to choose the next question: build the rule, race it,
+break it, restart it, test identity, remove unsafe helpers, and then trace the realtime
+update into the real system behind the application.
+
+## What happened next
+
+**September 2026** — this lab led me into SpacetimeDB's TypeScript SDK and PostgreSQL
+adapter. I [independently tested](https://github.com/clockworklabs/SpacetimeDB/pull/5707#issuecomment-5382007539)
+a WebSocket error-handling change, then opened a focused pull request to
+[correct the log severity of PostgreSQL server errors](https://github.com/clockworklabs/SpacetimeDB/pull/5882).
+That pull request is open as of 13 September 2026. It is one small contribution backed
+by a regression test, not proof that I understand the whole database.

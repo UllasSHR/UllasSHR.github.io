@@ -39,10 +39,8 @@ Write here.
 Available categories:
 
 - `building`: tools, projects, experiments, and things you are making
-- `work`: contributions, collaborations, and public proof
 - `technical-writing`: technical articles, agent workflows, tool notes, and engineering explainers
-- `life`: interesting things from life
-- `learning`: lessons, mistakes, references, and things to remember
+- `notes`: lessons, reflections, mistakes, and things worth remembering
 
 Use `date` for the original publish date. If you make a meaningful update later, set `updated` to that update date, for example `updated: "2026-06-20"`.
 

@@ -1,7 +1,7 @@
 ---
 title: "LaunchGuard: is this AI-built app actually ready to ship?"
 date: "2026-06-21"
-updated: ""
+updated: "2026-09-13"
 summary: "A launch-readiness scanner for AI-built SaaS apps that turns repo risks into a plain-English report."
 category: "building"
 tags: ["saas", "nextjs", "typescript", "scanner", "launch"]
@@ -68,3 +68,14 @@ The project also taught me an important safety lesson: local scanning and hosted
 AI makes it easier to build SaaS apps quickly, but quick apps often miss launch basics.
 
 LaunchGuard is my attempt to turn that messy pre-launch checklist into something a builder can run before shipping.
+
+## What happened next
+
+**September 2026** — the hosted site now offers the automated public-repository scan
+for free and presents a $9 Launch Fix Pack as a small product experiment. The pack is
+meant to turn scanner signals and blind spots into a fix order, tailored prompts, and
+verification steps.
+
+The paid offer does not make the scanner a complete security audit, and putting a price
+on the page is not proof of sales or customer outcomes. The useful test is whether the
+report helps a builder find and verify at least one real launch risk.

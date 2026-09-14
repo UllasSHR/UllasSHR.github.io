@@ -52,6 +52,9 @@ for (const post of posts) {
       description: post.data.summary || config.description,
       path: `/posts/${post.slug}/`,
       type: "article",
+      published: post.date,
+      updated: post.updated || post.date,
+      image: getFirstImage(post.content),
       body: renderPost(post)
     })
   );
@@ -140,7 +143,8 @@ await fs.writeFile(
           title: post.data.title,
           summary,
           content_text: summary,
-          date_published: `${post.date}T00:00:00Z`
+          date_published: `${post.date}T00:00:00Z`,
+          date_modified: `${post.updated || post.date}T00:00:00Z`
         };
       })
     },
@@ -254,27 +258,90 @@ function stripQuotes(value) {
 }
 
 function renderHome(homePosts, categories) {
+  const archiveOnlySlugs = new Set(["ai-ingest", "breathe", "launchguard"]);
+  const latestPosts = homePosts.filter((post) => !archiveOnlySlugs.has(post.slug)).slice(0, 3);
   return `
     <section class="hero marginalia">
-      <p class="caps hero-label">Est. 2026<br>Writing · Building</p>
+      <p class="caps hero-label">CS student<br>Building · Writing</p>
       <div class="hero-copy">
-        <h1>Notes on <em>building</em> and <em>learning</em> — written down when they might help someone else finish their own thing.</h1>
-        <p class="hero-aside">Project notes, build logs, and lessons from shipping, by a 20-year-old open-source developer.</p>
-        <p class="hero-cta">Everything here is built in the open — <a href="${escapeHtml(config.social.github)}" target="_blank" rel="noopener noreferrer">browse the code on GitHub ↗</a></p>
+        <h1>I'm Ullas. I <em>build things</em>, follow the questions they raise, and write down what I learn.</h1>
+        <p class="hero-aside">Lately, I've been exploring how applications keep shared data correct when requests compete, connections drop, or servers restart.</p>
+        <p class="hero-cta"><a href="#selected-work">Start with selected work ↓</a> <span aria-hidden="true">·</span> <a href="${withBase("/about/")}">About me →</a></p>
       </div>
     </section>
+
+    ${renderSelectedWork()}
 
     <section id="latest" aria-labelledby="latest-writing">
       <div class="section-rule">
         <h2 class="caps" id="latest-writing">Latest writing</h2>
-        <span class="caps">${formatCount(homePosts.length)}</span>
+        <span class="caps">${formatCount(latestPosts.length)}</span>
       </div>
       <div class="post-list">
-        ${homePosts.map(renderPostRow).join("\n") || '<p class="empty-state">No writing yet.</p>'}
+        ${latestPosts.map((post) => renderPostRow(post)).join("\n") || '<p class="empty-state">No writing yet.</p>'}
       </div>
     </section>
 
     ${renderSectionsBlock(categories)}
+
+    <section class="home-contact" id="contact" aria-labelledby="contact-heading">
+      <div class="section-rule">
+        <h2 class="caps" id="contact-heading">Say hello</h2>
+      </div>
+      <p>Have an idea, a question, or something you're working on? I'd like to hear from you.</p>
+      <p class="selected-links"><a href="mailto:ullas.srivastava.dev@gmail.com">ullas.srivastava.dev@gmail.com</a><span aria-hidden="true"> · </span><a href="https://x.com/UllasSHR">Message me on X ↗</a></p>
+    </section>
+  `;
+}
+
+function renderSelectedWork() {
+  const items = [
+    {
+      eyebrow: "Experiment · Article · Code",
+      title: "Last Seat Lab",
+      description: "One shared seat, competing clients, and experiments in transactions, authorization, durability, and realtime state.",
+      links: [
+        { label: "Read the experiment", href: withBase("/posts/last-seat-lab/") },
+        { label: "Inspect the code ↗", href: "https://github.com/UllasSHR/last-seat-lab", external: true }
+      ]
+    },
+    {
+      eyebrow: "Open-source contribution · Open",
+      title: "PostgreSQL error logging in SpacetimeDB",
+      description: "A focused change that keeps 4xx responses at warning level and records 5xx server failures as errors, backed by a regression test.",
+      links: [
+        { label: "View pull request ↗", href: "https://github.com/clockworklabs/SpacetimeDB/pull/5882", external: true }
+      ]
+    },
+    {
+      eyebrow: "Personal note",
+      title: "From nineteen to twenty",
+      description: "On leaving home, learning to build, and not letting ambition rush me past my own life.",
+      links: [
+        { label: "Read the note", href: withBase("/posts/from-nineteen-to-twenty/") }
+      ]
+    }
+  ];
+
+  return `
+    <section class="selected-work" id="selected-work" aria-labelledby="selected-work-heading">
+      <div class="section-rule selected-work-rule">
+        <h2 class="caps" id="selected-work-heading">Selected work</h2>
+        <span class="caps">A place to begin</span>
+      </div>
+      <div class="selected-list">
+        ${items.map((item) => `
+          <article class="selected-item marginalia">
+            <p class="caps selected-eyebrow">${escapeHtml(item.eyebrow)}</p>
+            <div class="selected-copy">
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.description)}</p>
+              <p class="selected-links">${item.links.map((link) => `<a href="${escapeHtml(link.href)}"${link.external ? ' target="_blank" rel="noopener noreferrer"' : ""}>${escapeHtml(link.label)}</a>`).join('<span aria-hidden="true"> · </span>')}</p>
+            </div>
+          </article>
+        `).join("\n")}
+      </div>
+    </section>
   `;
 }
 
@@ -320,7 +387,7 @@ function renderTagPage(tag, taggedPosts) {
   return `
     ${renderArchiveHeader("Tag", tag, `${formatCount(taggedPosts.length)} tagged here.`)}
     <div class="post-list archive-list">
-      ${taggedPosts.map(renderPostRow).join("\n")}
+      ${taggedPosts.map((post) => renderPostRow(post, 2)).join("\n")}
     </div>
   `;
 }
@@ -336,7 +403,7 @@ function renderCategoryPage(category) {
   return `
     ${renderArchiveHeader("Section", category.label, category.description)}
     <div class="post-list archive-list">
-      ${category.posts.map(renderPostRow).join("\n")}
+      ${category.posts.map((post) => renderPostRow(post, 2)).join("\n")}
     </div>
   `;
 }
@@ -373,7 +440,7 @@ function renderCategoryRow(category) {
   `;
 }
 
-function renderPostRow(post) {
+function renderPostRow(post, headingLevel = 3) {
   const postUrl = withBase(`/posts/${post.slug}/`);
   const title = post.data.title || "Untitled";
 
@@ -384,7 +451,7 @@ function renderPostRow(post) {
         <span class="caps post-category">${escapeHtml(post.category.label)}</span>
       </span>
       <span class="post-copy">
-        <h3 class="post-title">${escapeHtml(title)}</h3>
+        <h${headingLevel} class="post-title">${escapeHtml(title)}</h${headingLevel}>
         <span class="post-summary">${escapeHtml(post.data.summary || "")}</span>
       </span>
     </a>
@@ -404,8 +471,10 @@ function renderArticleMargin(post) {
   `;
 }
 
-function renderLayout({ title, description, body, path: pagePath = "/", type = "website" }) {
+function renderLayout({ title, description, body, path: pagePath = "/", type = "website", published = "", updated = "", image = "" }) {
   const socialNavLinks = getSocialLinks().map(renderHeaderSocialAnchor).join("");
+  const socialImage = image || "/images/last-seat-lab/cover.jpg";
+  const socialImageUrl = /^https?:\/\//.test(socialImage) ? socialImage : absoluteUrl(socialImage);
   const footerSocialLinks = getSocialLinks()
     .map((link) => `<a href="${escapeHtml(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(link.label)}</a>`)
     .join("");
@@ -423,32 +492,38 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
     <meta property="og:title" content="${escapeHtml(title)}">
     <meta property="og:description" content="${escapeHtml(description)}">
     <meta property="og:url" content="${absoluteUrl(pagePath)}">
-    <meta name="twitter:card" content="summary">
-    <link rel="icon" type="image/svg+xml" href="${withBase("/favicon.svg")}">
+    <meta property="og:image" content="${escapeHtml(socialImageUrl)}">
+    <meta property="og:image:alt" content="Ullas Srivastava — building, learning, and writing">
+    ${type === "article" && published ? `<meta property="article:published_time" content="${escapeHtml(published)}T00:00:00Z">` : ""}
+    ${type === "article" && updated ? `<meta property="article:modified_time" content="${escapeHtml(updated)}T00:00:00Z">` : ""}
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/svg+xml" href="${withBase("/favicon.svg")}?v=2">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Noto+Serif+Devanagari:wght@400&display=swap" rel="stylesheet">
     <link rel="alternate" type="application/feed+json" title="${escapeHtml(config.title)}" href="${absoluteUrl("/feed.json")}">
     <link rel="stylesheet" href="${withBase("/styles.css")}">
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="site-shell">
       <header class="site-header">
         <a class="name" href="${withBase("/")}">
           <span>Ullas</span><span class="name-surname" lang="hi">श्रीवास्तव</span>
         </a>
         <nav class="site-nav caps" aria-label="Primary navigation">
-          ${config.nav.map((item) => `<a href="${withBase(item.href)}">${escapeHtml(item.label)}</a>`).join("")}
+          ${config.nav.map((item) => `<a href="${withBase(item.href)}"${isCurrentNavItem(item.href, pagePath) ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`).join("")}
           ${socialNavLinks}
         </nav>
       </header>
-      <main>
+      <main id="main-content">
         ${body}
       </main>
       <footer class="site-footer">
         <span class="footer-mark">❦ © 2026 Ullas</span>
         <nav class="caps" aria-label="Footer navigation">
           ${footerSocialLinks}
-          <a href="${withBase("/feed.json")}">RSS</a>
+          <a href="${withBase("/categories/")}">Sections</a>
+          <a href="${withBase("/feed.json")}">JSON Feed</a>
         </nav>
       </footer>
     </div>
@@ -463,6 +538,12 @@ function getSocialLinks() {
       ? { id: "x", label: "X", href: config.social.twitter || config.social.x }
       : null
   ].filter(Boolean);
+}
+
+function isCurrentNavItem(href, pagePath) {
+  if (href === "/") return pagePath === "/";
+  if (href.includes("#")) return false;
+  return pagePath === href || pagePath.startsWith(href);
 }
 
 function renderHeaderSocialAnchor(link) {
@@ -487,6 +568,7 @@ function markdownToHtml(markdown) {
   let listType = null;
   let inCode = false;
   let codeLines = [];
+  const headingIds = new Map();
 
   const flushParagraph = () => {
     if (!paragraph.length) return;
@@ -536,9 +618,10 @@ function markdownToHtml(markdown) {
       const [variant = "", caption = ""] = (figure[3] || "").split("|", 2);
       const className = variant === "portrait" ? " article-figure--portrait" : "";
       const source = figure[2].startsWith("/") ? withBase(figure[2]) : figure[2];
+      const dimensions = getImageDimensions(figure[2]);
       html.push(`
         <figure class="article-figure${className}">
-          <img src="${escapeHtml(source)}" alt="${escapeHtml(figure[1])}">
+          <img src="${escapeHtml(source)}" alt="${escapeHtml(figure[1])}"${dimensions ? ` width="${dimensions.width}" height="${dimensions.height}"` : ""} loading="lazy" decoding="async">
           ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ""}
         </figure>
       `);
@@ -550,7 +633,11 @@ function markdownToHtml(markdown) {
       flushParagraph();
       closeList();
       const level = heading[1].length;
-      html.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      const baseHeadingId = slugify(stripInlineMarkdown(heading[2])) || "section";
+      const occurrence = headingIds.get(baseHeadingId) || 0;
+      headingIds.set(baseHeadingId, occurrence + 1);
+      const headingId = occurrence ? `${baseHeadingId}-${occurrence + 1}` : baseHeadingId;
+      html.push(`<h${level} id="${headingId}" class="anchored-heading">${inlineMarkdown(heading[2])}<a class="heading-anchor" href="#${headingId}" aria-label="Link to this section">#</a></h${level}>`);
       continue;
     }
 
@@ -602,6 +689,31 @@ function markdownToHtml(markdown) {
   }
 
   return html.join("\n");
+}
+
+function stripInlineMarkdown(value) {
+  return String(value)
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_~]/g, "");
+}
+
+function getFirstImage(markdown) {
+  const match = String(markdown).match(/!\[[^\]]*\]\(([^)\s]+)/);
+  return match ? match[1] : "";
+}
+
+function getImageDimensions(source) {
+  const dimensions = {
+    "/images/from-nineteen-to-twenty/builder-shift.jpg": { width: 2841, height: 1669 },
+    "/images/from-nineteen-to-twenty/river-portrait.jpg": { width: 3264, height: 1468 },
+    "/images/last-seat-lab/browser-state.jpg": { width: 1014, height: 702 },
+    "/images/last-seat-lab/cover.jpg": { width: 1280, height: 512 },
+    "/images/last-seat-lab/module.png": { width: 1026, height: 570 },
+    "/images/last-seat-lab/sqlite.jpg": { width: 838, height: 471 }
+  };
+
+  return dimensions[source] || null;
 }
 
 function isConsecutiveLinkParagraph(text) {

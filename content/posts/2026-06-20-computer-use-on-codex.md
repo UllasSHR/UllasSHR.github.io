@@ -1,13 +1,13 @@
 ---
 title: "Computer Use on Codex, with exactly enough access"
 date: "2026-06-16"
-updated: "2026-06-20"
+updated: "2026-09-13"
 summary: "Computer Use is powerful, but the smarter workflow is to give Codex exactly enough access for the task."
 category: "technical-writing"
 tags: ["codex", "computer-use", "agents", "workflow", "browser"]
 ---
 
-Computer Use is the most abused feature in Codex right now.
+Computer Use is one of the easiest Codex features to reach for too early.
 
 People say "computer use" as if it is one capability.
 
@@ -48,7 +48,8 @@ Each step gives the agent more access. More context. More flexibility.
 
 But every step also adds cost.
 
-More tokens. More state. More possible side effects. More things the agent can misunderstand.
+More state. More possible side effects. More things the agent can misunderstand. In my
+workflow, broader visual access can also require more observation and verification.
 
 So the goal is not to jump to the top.
 
@@ -99,7 +100,10 @@ Open localhost. Check the layout. Click the modal. Inspect the page state. Verif
 
 That is where `@Browser` shines.
 
-It gives the agent eyes on the page without bringing in your normal cookies, sessions, extensions, bookmarks, or logged-in profile.
+It gives the agent a browser profile separate from your regular browser, without
+automatically bringing in your normal cookies, sessions, extensions, or tabs. That
+separate profile can still hold its own signed-in sessions, so it is not automatically
+anonymous or identity-free.
 
 That matters.
 
@@ -271,7 +275,10 @@ Codex can use tools. It can use a browser. It can use Chrome. It can use your de
 
 But those are not the same thing.
 
-The skill is knowing which one to choose.
+The skill is knowing which one to choose. OpenAI's current
+[Browser documentation](https://learn.chatgpt.com/docs/browser) describes the built-in
+browser as a separate profile and explains when to use it instead of an existing browser
+session.
 
 Use plugins when the task is structured. Use `@Browser` when the task is clean web verification. Use `@Chrome` when the task needs your logged-in browser. Use `@Computer` when the desktop itself is the task.
 

@@ -1,7 +1,7 @@
 {
   "title": "Ullas Srivastava",
-  "description": "Notes on building and learning — written down when they might help someone else finish their own thing.",
-  "author": "Builder · Writer",
+  "description": "Experiments, contributions, and notes from Ullas Srivastava — a CS student learning how stateful systems behave when things compete, disconnect, or fail.",
+  "author": "CS student · Builder · Writer",
   "url": "https://ullasshr.github.io",
   "baseUrl": "",
   "social": {
@@ -11,7 +11,7 @@
   },
   "nav": [
     { "label": "Writing", "href": "/" },
-    { "label": "Sections", "href": "/categories/" },
+    { "label": "Work", "href": "/#selected-work" },
     { "label": "About", "href": "/about/" }
   ],
   "categories": [
