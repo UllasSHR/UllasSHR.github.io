@@ -522,8 +522,6 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
         <span class="footer-mark">❦ © 2026 Ullas</span>
         <nav class="caps" aria-label="Footer navigation">
           ${footerSocialLinks}
-          <a href="${withBase("/categories/")}">Sections</a>
-          <a href="${withBase("/feed.json")}">JSON Feed</a>
         </nav>
       </footer>
     </div>

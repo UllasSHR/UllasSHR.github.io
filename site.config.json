@@ -12,6 +12,7 @@
   "nav": [
     { "label": "Writing", "href": "/" },
     { "label": "Work", "href": "/#selected-work" },
+    { "label": "Sections", "href": "/categories/" },
     { "label": "About", "href": "/about/" }
   ],
   "categories": [
