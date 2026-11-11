@@ -21,6 +21,7 @@ if (await pathExists(publicDir)) {
   await fs.cp(publicDir, distDir, { recursive: true });
 }
 await fs.copyFile(path.join(root, "src", "styles.css"), path.join(distDir, "styles.css"));
+await fs.copyFile(path.join(root, "src", "site.js"), path.join(distDir, "site.js"));
 await fs.copyFile(path.join(root, "src", "favicon.svg"), path.join(distDir, "favicon.svg"));
 await fs.writeFile(path.join(distDir, ".nojekyll"), "");
 
@@ -41,6 +42,7 @@ const posts = (await readMarkdownFiles(postsDir))
   .sort((a, b) => b.date.localeCompare(a.date));
 
 const pages = await readMarkdownFiles(pagesDir);
+const timeline = JSON.parse(await fs.readFile(path.join(root, "content", "timeline.json"), "utf8"));
 
 for (const post of posts) {
   const outputDir = path.join(distDir, "posts", post.slug);
@@ -121,7 +123,7 @@ await fs.writeFile(
   renderLayout({
     title: config.title,
     description: config.description,
-    body: renderHome(posts, categoryGroups)
+    body: renderHome(posts)
   })
 );
 
@@ -257,77 +259,115 @@ function stripQuotes(value) {
   return value.replace(/^["']|["']$/g, "");
 }
 
-function renderHome(homePosts, categories) {
-  const archiveOnlySlugs = new Set(["ai-ingest", "breathe", "launchguard"]);
-  const latestPosts = homePosts.filter((post) => !archiveOnlySlugs.has(post.slug)).slice(0, 3);
+function renderHome(homePosts) {
+  const hiddenSlugs = new Set(["breathe", "launchguard", "computer-use-on-codex"]);
+  const listedPosts = homePosts.filter((post) => !hiddenSlugs.has(post.slug));
   return `
-    <section class="hero marginalia">
-      <p class="caps hero-label">CS student<br>Building · Writing</p>
-      <div class="hero-copy">
-        <h1>I'm Ullas. I <em>build things</em>, follow the questions they raise, and write down what I learn.</h1>
-        <p class="hero-aside">Lately, I've been exploring how applications keep shared data correct when requests compete, connections drop, or servers restart.</p>
-        <p class="hero-cta"><a href="#selected-work">Start with selected work ↓</a> <span aria-hidden="true">·</span> <a href="${withBase("/about/")}">About me →</a></p>
+    <section class="home-hero">
+      <div class="home-intro">
+        <h1>Hi, I'm <em>Ullas</em>.</h1>
+        <p class="home-lines">I like AI and infrastructure.<br>I work on the backend with Go, Kubernetes and Postgres.<br>I contribute to <a href="https://github.com/search?q=org%3Aopeneverest+author%3AUllasSHR+is%3Apr+is%3Amerged&amp;type=pullrequests">OpenEverest</a>.</p>
+        <p class="chip-row"><a class="chip chip-solid chip-down" href="#work">See the work</a></p>
       </div>
+      ${renderLab()}
     </section>
 
-    ${renderSelectedWork()}
+    ${renderWorkSection("work", "Open source", "Merged work", [
+      {
+        eyebrow: "2026 · Go",
+        title: "OpenEverest",
+        description: "An open-source database platform on Kubernetes. I ran my failover test through its Postgres provider and found the connection secret pointing at a service with no pods. I reported it and fixed it in Go.",
+        links: [
+          { label: "The bug", href: "https://github.com/openeverest/provider-percona-postgresql/issues/50" },
+          { label: "The fix", href: "https://github.com/openeverest/provider-percona-postgresql/pull/52" }
+        ]
+      }
+    ])}
 
-    <section id="latest" aria-labelledby="latest-writing">
+    ${renderWorkSection("projects", "Projects", "Things I built", [
+      {
+        eyebrow: "2026 · Kubernetes",
+        title: "Last Seat",
+        description: "One seat, many clients. I kill servers and databases on Kubernetes to see what stays correct.",
+        links: [
+          { label: "On Kubernetes", href: withBase("/posts/last-seat-on-kubernetes/") },
+          { label: "The first lab", href: withBase("/posts/last-seat-lab/") },
+          { label: "Code", href: "https://github.com/UllasSHR/last-seat-k8s" }
+        ]
+      },
+      {
+        eyebrow: "2026 · Go",
+        title: "pg-cutover",
+        description: "A Go CLI that shows what a Postgres failover does to open and new connections. Built with an AI agent. The drill logs are in the repo.",
+        links: [{ label: "Code", href: "https://github.com/UllasSHR/pg-cutover" }]
+      },
+      {
+        eyebrow: "2026 · macOS",
+        title: "Moves",
+        description: "Scroll your Mac with hand gestures. The camera tracks your hand locally.",
+        links: [
+          { label: "Code", href: "https://github.com/UllasSHR/moves" },
+          { label: "Demo", href: "https://x.com/UllasSHR/status/2106083708357038333" }
+        ]
+      }
+    ])}
+
+    ${renderTimeline()}
+
+    <section class="home-block" id="writing" aria-labelledby="writing-heading">
       <div class="section-rule">
-        <h2 class="caps" id="latest-writing">Latest writing</h2>
-        <span class="caps">${formatCount(latestPosts.length)}</span>
+        <h2 class="caps" id="writing-heading">Writing</h2>
+        <span class="caps">Newest first</span>
       </div>
-      <div class="post-list">
-        ${latestPosts.map((post) => renderPostRow(post)).join("\n") || '<p class="empty-state">No writing yet.</p>'}
+      <div class="writing-list">
+        ${listedPosts.map((post) => `
+          <a href="${withBase(`/posts/${post.slug}/`)}">
+            <span>${escapeHtml(post.data.title || "Untitled")}</span>
+            <time class="caps" datetime="${escapeHtml(post.date)}">${formatDate(post.date)}</time>
+          </a>`).join("\n") || '<p class="empty-state">No writing yet.</p>'}
       </div>
-    </section>
-
-    ${renderSectionsBlock(categories)}
-
-    <section class="home-contact" id="contact" aria-labelledby="contact-heading">
-      <div class="section-rule">
-        <h2 class="caps" id="contact-heading">Say hello</h2>
-      </div>
-      <p>Have an idea, a question, or something you're working on? I'd like to hear from you.</p>
-      <p class="selected-links"><a href="mailto:ullas.srivastava.dev@gmail.com">ullas.srivastava.dev@gmail.com</a><span aria-hidden="true"> · </span><a href="https://x.com/UllasSHR">Message me on X ↗</a></p>
     </section>
   `;
 }
 
-function renderSelectedWork() {
-  const items = [
-    {
-      eyebrow: "Experiment · Article · Code",
-      title: "Last Seat Lab",
-      description: "One shared seat, competing clients, and experiments in transactions, authorization, durability, and realtime state.",
-      links: [
-        { label: "Read the experiment", href: withBase("/posts/last-seat-lab/") },
-        { label: "Inspect the code ↗", href: "https://github.com/UllasSHR/last-seat-lab", external: true }
-      ]
-    },
-    {
-      eyebrow: "Open-source contribution · Open",
-      title: "PostgreSQL error logging in SpacetimeDB",
-      description: "A focused change that keeps 4xx responses at warning level and records 5xx server failures as errors, backed by a regression test.",
-      links: [
-        { label: "View pull request ↗", href: "https://github.com/clockworklabs/SpacetimeDB/pull/5882", external: true }
-      ]
-    },
-    {
-      eyebrow: "Personal note",
-      title: "From nineteen to twenty",
-      description: "On leaving home, learning to build, and not letting ambition rush me past my own life.",
-      links: [
-        { label: "Read the note", href: withBase("/posts/from-nineteen-to-twenty/") }
-      ]
-    }
-  ];
-
+function renderLab() {
   return `
-    <section class="selected-work" id="selected-work" aria-labelledby="selected-work-heading">
+      <div class="lab" aria-label="A small live model of my Postgres failover lab">
+        <div class="lab-top">
+          <span class="caps">Last Seat · 3 Postgres instances</span>
+          <button class="lab-kill" id="lab-kill" type="button">Kill the primary</button>
+        </div>
+        <svg id="lab-stage" viewBox="0 0 420 292" role="img" aria-label="Clients send bookings through seat-api to the Postgres primary. Two replicas stand by.">
+          <defs><pattern id="lab-dots" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="rgba(236,229,214,0.07)"/></pattern></defs>
+          <rect x="-4" y="-4" width="428" height="300" fill="url(#lab-dots)"/>
+          <g id="lab-wires"></g>
+          <g>
+            <circle class="node" cx="22" cy="86" r="7"/><circle class="node" cx="22" cy="146" r="7"/><circle class="node" cx="22" cy="206" r="7"/>
+            <text class="lbl" x="22" y="240" text-anchor="middle">clients</text>
+            <rect class="node" x="104" y="117" width="104" height="58" rx="12"/>
+            <text class="pname" x="156" y="143" text-anchor="middle">seat-api</text>
+            <text class="lbl" id="lab-api-state" x="156" y="161" text-anchor="middle">booking</text>
+          </g>
+          <g id="lab-pods"></g>
+          <g id="lab-pkts"></g>
+        </svg>
+        <p class="lab-status" id="lab-status" aria-live="polite">Healthy. Bookings go to the primary.</p>
+        <div class="lab-counts caps">
+          <span>Gap<b id="lab-gap">–</b></span>
+          <span>Retries<b id="lab-retries">0</b></span>
+          <span>Errors<b>0</b></span>
+          <span>Winners<b>1</b></span>
+        </div>
+        <p class="lab-real">This is a model. My real test on 19 Oct 2026: about 2 s gap, 167 retries, 0 errors, 1 winner. <a href="${withBase("/posts/last-seat-on-kubernetes/")}">Read how</a></p>
+      </div>`;
+}
+
+function renderWorkSection(id, heading, aside, items) {
+  return `
+    <section class="home-block" id="${id}" aria-labelledby="${id}-heading">
       <div class="section-rule selected-work-rule">
-        <h2 class="caps" id="selected-work-heading">Selected work</h2>
-        <span class="caps">A place to begin</span>
+        <h2 class="caps" id="${id}-heading">${escapeHtml(heading)}</h2>
+        <span class="caps">${escapeHtml(aside)}</span>
       </div>
       <div class="selected-list">
         ${items.map((item) => `
@@ -336,10 +376,40 @@ function renderSelectedWork() {
             <div class="selected-copy">
               <h3>${escapeHtml(item.title)}</h3>
               <p>${escapeHtml(item.description)}</p>
-              <p class="selected-links">${item.links.map((link) => `<a href="${escapeHtml(link.href)}"${link.external ? ' target="_blank" rel="noopener noreferrer"' : ""}>${escapeHtml(link.label)}</a>`).join('<span aria-hidden="true"> · </span>')}</p>
+              <p class="chip-row">${item.links.map(renderChip).join("")}</p>
             </div>
           </article>
         `).join("\n")}
+      </div>
+    </section>
+  `;
+}
+
+function renderChip(link) {
+  const external = /^https?:\/\//.test(link.href);
+  return `<a class="chip" href="${escapeHtml(link.href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>${escapeHtml(link.label)}</a>`;
+}
+
+function renderTimeline() {
+  return `
+    <section class="home-block" id="updates" aria-labelledby="updates-heading">
+      <div class="section-rule section-rule-action">
+        <h2 class="caps" id="updates-heading">Updates</h2>
+        <button class="chip chip-down" id="timeline-more" type="button" aria-expanded="false">Full timeline</button>
+      </div>
+      <div class="timeline" id="timeline">
+        ${timeline.map((entry) => {
+          const href = entry.href ? (entry.href.startsWith("/") ? withBase(entry.href) : entry.href) : "";
+          const external = /^https?:\/\//.test(href);
+          const title = href
+            ? `<a href="${escapeHtml(href)}"${external ? ' target="_blank" rel="noopener noreferrer"' : ""}>${escapeHtml(entry.title)}</a>`
+            : escapeHtml(entry.title);
+          return `
+          <div class="tl marginalia${entry.big ? " tl-big" : ""}${entry.more ? " tl-more" : ""}">
+            <span class="tl-when caps">${escapeHtml(entry.when)}</span>
+            <div class="tl-what"><h3>${title}</h3>${entry.note ? `<p>${escapeHtml(entry.note)}</p>` : ""}</div>
+          </div>`;
+        }).join("\n")}
       </div>
     </section>
   `;
@@ -502,6 +572,8 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&family=Noto+Serif+Devanagari:wght@400&display=swap" rel="stylesheet">
     <link rel="alternate" type="application/feed+json" title="${escapeHtml(config.title)}" href="${absoluteUrl("/feed.json")}">
     <link rel="stylesheet" href="${withBase("/styles.css")}">
+    <script>try { if (localStorage.getItem("theme") === "night") document.documentElement.dataset.theme = "night"; } catch {}</script>
+    <script src="${withBase("/site.js")}" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -512,6 +584,7 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
         </a>
         <nav class="site-nav caps" aria-label="Primary navigation">
           ${config.nav.map((item) => `<a href="${withBase(item.href)}"${isCurrentNavItem(item.href, pagePath) ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`).join("")}
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between paper and night theme">Night</button>
           ${socialNavLinks}
         </nav>
       </header>
@@ -521,6 +594,7 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
       <footer class="site-footer">
         <span class="footer-mark">❦ © 2026 Ullas</span>
         <nav class="caps" aria-label="Footer navigation">
+          <a href="mailto:ullas.srivastava.dev@gmail.com">Email</a>
           ${footerSocialLinks}
         </nav>
       </footer>

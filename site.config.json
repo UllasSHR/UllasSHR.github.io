@@ -1,7 +1,7 @@
 {
   "title": "Ullas Srivastava",
-  "description": "Experiments, contributions, and notes from Ullas Srivastava — a CS student learning how stateful systems behave when things compete, disconnect, or fail.",
-  "author": "CS student · Builder · Writer",
+  "description": "Ullas Srivastava. I run real systems, break them, and fix what I find. Go, Kubernetes, Postgres.",
+  "author": "Ullas Srivastava",
   "url": "https://ullasshr.github.io",
   "baseUrl": "",
   "social": {
@@ -10,10 +10,9 @@
     "x": "https://x.com/UllasSHR"
   },
   "nav": [
-    { "label": "Writing", "href": "/" },
-    { "label": "Work", "href": "/#selected-work" },
-    { "label": "Sections", "href": "/categories/" },
-    { "label": "About", "href": "/about/" }
+    { "label": "Work", "href": "/#work" },
+    { "label": "Updates", "href": "/#updates" },
+    { "label": "Writing", "href": "/#writing" }
   ],
   "categories": [
     {

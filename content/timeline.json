@@ -1,0 +1,14 @@
+[
+  { "when": "Nov 2026", "title": "Built pg-cutover", "note": "A failover drill tool for Postgres connections", "href": "https://github.com/UllasSHR/pg-cutover" },
+  { "when": "Nov 2026", "title": "Sent a fix for backups that never deleted their data", "note": "OpenEverest, found on my lab", "href": "https://github.com/openeverest/provider-percona-postgresql/pull/73", "more": true },
+  { "when": "Oct 2026", "title": "First merged open-source contribution", "note": "OpenEverest, 14 Oct", "href": "https://github.com/openeverest/provider-percona-postgresql/pull/52", "big": true },
+  { "when": "Oct 2026", "title": "Went to a Claude community meetup", "note": "10 Oct" },
+  { "when": "Oct 2026", "title": "Found my first bug in someone else's project", "note": "By running my own failover test through it, 8 Oct", "href": "https://github.com/openeverest/provider-percona-postgresql/issues/50", "more": true },
+  { "when": "Oct 2026", "title": "Launched Moves", "note": "Gesture scrolling for macOS, 4 Oct", "href": "https://x.com/UllasSHR/status/2106083708357038333" },
+  { "when": "Oct 2026", "title": "Published Last Seat on Kubernetes", "note": "What keeps running, and what stays correct", "href": "/posts/last-seat-on-kubernetes/", "more": true },
+  { "when": "Sep 2026", "title": "Started my first Kubernetes cluster", "note": "On my MacBook, to break things on purpose", "more": true },
+  { "when": "Aug 2026", "title": "OpenAI quoted my tweet", "note": "5 Aug", "href": "https://x.com/OpenAIDevs/status/2085068143907746098", "big": true },
+  { "when": "Aug 2026", "title": "Published Last Seat Lab", "note": "My first database experiment", "href": "/posts/last-seat-lab/", "more": true },
+  { "when": "Jul 2026", "title": "Turned twenty", "note": "And wrote about leaving home", "href": "/posts/from-nineteen-to-twenty/" },
+  { "when": "Spring 2026", "title": "Made my first website", "note": "Where all of this started" }
+]
