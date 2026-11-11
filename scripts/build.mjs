@@ -586,6 +586,7 @@ function renderLayout({ title, description, body, path: pagePath = "/", type = "
           ${config.nav.map((item) => `<a href="${withBase(item.href)}"${isCurrentNavItem(item.href, pagePath) ? ' aria-current="page"' : ""}>${escapeHtml(item.label)}</a>`).join("")}
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch between paper and night theme">Night</button>
           ${socialNavLinks}
+          <a class="btn btn-solid" href="mailto:ullas.srivastava.dev@gmail.com" aria-label="Email Ullas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.4 2 7.6 5.6L19.600 7zM20 8.300l-8 5.900-8-5.900V17h16z"/></svg><span>Email</span></a>
         </nav>
       </header>
       <main id="main-content">

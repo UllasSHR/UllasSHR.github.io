@@ -1485,3 +1485,13 @@ html {
     animation: none;
   }
 }
+
+.site-nav .btn-solid {
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.site-nav .btn-solid:hover,
+.site-nav .btn-solid:focus-visible {
+  filter: brightness(1.15);
+}
