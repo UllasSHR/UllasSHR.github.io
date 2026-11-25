@@ -783,7 +783,10 @@ function getImageDimensions(source) {
     "/images/last-seat-lab/browser-state.jpg": { width: 1014, height: 702 },
     "/images/last-seat-lab/cover.jpg": { width: 1280, height: 512 },
     "/images/last-seat-lab/module.png": { width: 1026, height: 570 },
-    "/images/last-seat-lab/sqlite.jpg": { width: 838, height: 471 }
+    "/images/last-seat-lab/sqlite.jpg": { width: 838, height: 471 },
+    "/images/whose-bug-is-it/cover.png": { width: 3000, height: 1200 },
+    "/images/whose-bug-is-it/delete-terminal.png": { width: 2400, height: 1000 },
+    "/images/whose-bug-is-it/delete-chain.png": { width: 2400, height: 790 }
   };
 
   return dimensions[source] || null;
